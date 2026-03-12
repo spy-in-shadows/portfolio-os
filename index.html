@@ -1,0 +1,210 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="description"
+        content="Krishna Verma — BTech CSE (AI & ML) Student Portfolio OS. Interactive hacker-themed developer portfolio with neural network visualization, terminal UI, and OS-style interface." />
+    <title>Krishna Verma | Portfolio OS</title>
+    <link rel="stylesheet" href="style.css" />
+</head>
+
+<body>
+    <!-- ============================================================
+         FEATURE 1: BOOT SEQUENCE LOADER
+         Full-screen overlay that simulates system boot on page load.
+         Controlled by script.js → runBootSequence()
+    ============================================================ -->
+    <div id="boot-loader">
+        <div id="boot-messages"></div>
+        <div id="boot-cursor">_</div>
+    </div>
+
+    <!-- ============================================================
+         FEATURE 8: COMMAND PALETTE (Ctrl + K)
+         A modal overlay that appears when the user presses Ctrl+K.
+         Contains a search input that filters commands.
+    ============================================================ -->
+    <div id="command-palette-overlay" class="hidden">
+        <div id="command-palette">
+            <div id="cp-header">
+                <span id="cp-title">⌘ Command Palette</span>
+                <span id="cp-shortcut">ESC to close</span>
+            </div>
+            <input type="text" id="cp-input" placeholder="Type a command..." autocomplete="off" spellcheck="false" />
+            <ul id="cp-results"></ul>
+        </div>
+    </div>
+
+    <!-- ============================================================
+         MAIN APP WRAPPER
+         Hidden during boot, revealed after boot sequence completes.
+    ============================================================ -->
+    <div id="app" class="hidden">
+
+        <!-- ============================================================
+           NAVIGATION BAR — OS-style top bar
+      ============================================================ -->
+        <nav id="topbar">
+            <div id="topbar-left">
+                <span id="os-logo">⬡ PortfolioOS v1.0</span>
+            </div>
+            <div id="topbar-center">
+                <span class="topbar-cmd" id="cmd-hint">Press <kbd>Ctrl+K</kbd> for commands</span>
+            </div>
+            <div id="topbar-right">
+                <span id="clock" aria-label="Current time"></span>
+            </div>
+        </nav>
+
+        <!-- ============================================================
+           FEATURE 2 + 3: HERO SECTION
+           Contains: Canvas neural network background + Terminal typing
+      ============================================================ -->
+        <section id="hero">
+            <!-- Neural network canvas fills this section (Feature 3) -->
+            <canvas id="neural-canvas"></canvas>
+
+            <!-- Terminal typing interface (Feature 2) -->
+            <div id="terminal-hero">
+                <!-- FEATURE 6: Glitch name header -->
+                <h1 id="glitch-name" data-text="KRISHNA VERMA">KRISHNA VERMA</h1>
+
+                <!-- Terminal prompt output area -->
+                <div id="terminal-output">
+                    <div class="terminal-line">
+                        <span class="prompt">user@portfolio:~$</span>
+                        <span class="cmd-text" id="type-command-1"></span>
+                        <span class="cursor" id="cursor-1">_</span>
+                    </div>
+                    <div class="terminal-line hidden" id="response-block-1">
+                        <div class="response-line" id="response-1a"></div>
+                        <div class="response-line" id="response-1b"></div>
+                        <div class="response-line" id="response-1c"></div>
+                    </div>
+                    <div class="terminal-line hidden" id="cmd-line-2">
+                        <span class="prompt">user@portfolio:~$</span>
+                        <span class="cmd-text" id="type-command-2"></span>
+                        <span class="cursor" id="cursor-2">_</span>
+                    </div>
+                    <div class="terminal-line hidden" id="response-block-2">
+                        <div class="response-line" id="response-2a"></div>
+                        <div class="response-line" id="response-2b"></div>
+                    </div>
+                </div>
+
+                <!-- Desktop File Explorer Folders (Feature 4) -->
+                <div id="file-explorer">
+                    <div class="folder" data-window="projects" id="folder-projects" tabindex="0" role="button"
+                        aria-label="Open Projects folder">
+                        <span class="folder-icon">📁</span>
+                        <span class="folder-name">Projects</span>
+                    </div>
+                    <div class="folder" data-window="skills" id="folder-skills" tabindex="0" role="button"
+                        aria-label="Open Skills folder">
+                        <span class="folder-icon">📁</span>
+                        <span class="folder-name">Skills</span>
+                    </div>
+                    <div class="folder" data-window="about" id="folder-about" tabindex="0" role="button"
+                        aria-label="Open About folder">
+                        <span class="folder-icon">📁</span>
+                        <span class="folder-name">About</span>
+                    </div>
+                    <div class="folder" data-window="contact" id="folder-contact" tabindex="0" role="button"
+                        aria-label="Open Contact folder">
+                        <span class="folder-icon">📁</span>
+                        <span class="folder-name">Contact</span>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- ============================================================
+           FEATURE 4 + 5: MODAL WINDOWS
+           Each folder opens a draggable window. Windows are styled
+           like desktop OS windows and contain relevant content.
+      ============================================================ -->
+
+        <!-- PROJECTS WINDOW -->
+        <div class="os-window hidden" id="window-projects" role="dialog" aria-label="Projects window">
+            <div class="window-titlebar" id="titlebar-projects">
+                <div class="window-controls">
+                    <span class="win-btn btn-close" data-window="projects" title="Close"></span>
+                    <span class="win-btn btn-min" title="Minimize"></span>
+                    <span class="win-btn btn-max" title="Maximize"></span>
+                </div>
+                <span class="window-title">📁 /Projects</span>
+                <span class="window-path">~/krishna/work</span>
+            </div>
+            <div class="window-body" id="projects-body">
+                <!-- Project cards are injected by script.js -->
+            </div>
+        </div>
+
+        <!-- SKILLS WINDOW -->
+        <div class="os-window hidden" id="window-skills" role="dialog" aria-label="Skills window">
+            <div class="window-titlebar" id="titlebar-skills">
+                <div class="window-controls">
+                    <span class="win-btn btn-close" data-window="skills" title="Close"></span>
+                    <span class="win-btn btn-min" title="Minimize"></span>
+                    <span class="win-btn btn-max" title="Maximize"></span>
+                </div>
+                <span class="window-title">📁 /Skills</span>
+                <span class="window-path">~/krishna/skills</span>
+            </div>
+            <div class="window-body" id="skills-body">
+                <!-- Skills content injected by script.js -->
+            </div>
+        </div>
+
+        <!-- ABOUT WINDOW -->
+        <div class="os-window hidden" id="window-about" role="dialog" aria-label="About window">
+            <div class="window-titlebar" id="titlebar-about">
+                <div class="window-controls">
+                    <span class="win-btn btn-close" data-window="about" title="Close"></span>
+                    <span class="win-btn btn-min" title="Minimize"></span>
+                    <span class="win-btn btn-max" title="Maximize"></span>
+                </div>
+                <span class="window-title">📁 /About</span>
+                <span class="window-path">~/krishna/profile</span>
+            </div>
+            <div class="window-body" id="about-body">
+                <!-- About content injected by script.js -->
+            </div>
+        </div>
+
+        <!-- CONTACT WINDOW -->
+        <div class="os-window hidden" id="window-contact" role="dialog" aria-label="Contact window">
+            <div class="window-titlebar" id="titlebar-contact">
+                <div class="window-controls">
+                    <span class="win-btn btn-close" data-window="contact" title="Close"></span>
+                    <span class="win-btn btn-min" title="Minimize"></span>
+                    <span class="win-btn btn-max" title="Maximize"></span>
+                </div>
+                <span class="window-title">📁 /Contact</span>
+                <span class="window-path">~/krishna/contact</span>
+            </div>
+            <div class="window-body" id="contact-body">
+                <!-- Contact content injected by script.js -->
+            </div>
+        </div>
+
+        <!-- ============================================================
+           BOTTOM TASKBAR — Shows open windows / quick actions
+      ============================================================ -->
+        <div id="taskbar">
+            <div id="taskbar-items">
+                <!-- Taskbar icons for open windows are added dynamically -->
+            </div>
+            <div id="taskbar-right-section">
+                <span class="taskbar-btn neon-btn" id="resume-btn">⬇ Resume</span>
+            </div>
+        </div>
+
+    </div>
+
+    <script src="script.js" defer></script>
+</body>
+
+</html>

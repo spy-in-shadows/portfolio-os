@@ -1,0 +1,1130 @@
+/* ================================================================
+   PORTFOLIO OS — style.css
+   Theme: Cyberpunk Developer Terminal
+   Author: Krishna Verma
+   Description: All visual styles for the portfolio OS interface.
+                Organised section by section matching HTML structure.
+================================================================ */
+
+/* ----------------------------------------------------------------
+   1. CSS CUSTOM PROPERTIES (Design Tokens)
+   Centralised colour palette and reusable values.
+   Change a value here and it propagates everywhere.
+---------------------------------------------------------------- */
+:root {
+  --bg:           #0a0a0a;       /* deepest background */
+  --bg-window:    #121212;       /* modal / card background */
+  --bg-card:      #0f0f0f;
+  --primary:      #00ff9f;       /* main green — text, accents */
+  --secondary:    #aaffee;       /* lighter cyan text */
+  --accent:       #ff00ff;       /* magenta — highlights */
+  --accent-blue:  #00d4ff;       /* electric blue */
+  --border-glow:  #00ffaa;       /* glow borders */
+  --danger:       #ff4444;       /* close button */
+  --warn:         #ffcc00;       /* minimise button */
+  --safe:         #00ff88;       /* maximise button */
+  --text-dim:     #445555;       /* dimmed / inactive text */
+  --font-mono:    'Courier New', Courier, monospace;
+  --transition:   0.25s ease;
+  --glow-sm:      0 0 6px var(--primary);
+  --glow-md:      0 0 10px var(--primary), 0 0 20px var(--primary);
+  --glow-lg:      0 0 10px var(--primary), 0 0 20px var(--primary), 0 0 40px var(--primary);
+}
+
+/* ----------------------------------------------------------------
+   2. CSS RESET & BASE STYLES
+---------------------------------------------------------------- */
+*, *::before, *::after {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+html {
+  scroll-behavior: smooth;
+}
+
+body {
+  background-color: var(--bg);
+  color: var(--primary);
+  font-family: var(--font-mono);
+  font-size: 14px;
+  line-height: 1.6;
+  overflow-x: hidden;
+  min-height: 100vh;
+}
+
+/* Utility: visually hidden but accessible */
+.hidden {
+  display: none !important;
+}
+
+/* Scrollbar styling — cyberpunk green */
+::-webkit-scrollbar               { width: 6px; }
+::-webkit-scrollbar-track         { background: var(--bg-window); }
+::-webkit-scrollbar-thumb         { background: var(--border-glow); border-radius: 3px; }
+::-webkit-scrollbar-thumb:hover   { background: var(--primary); }
+
+/* ----------------------------------------------------------------
+   3. FEATURE 1 — BOOT SEQUENCE LOADER
+   Full-screen overlay with scrolling text, covering everything.
+---------------------------------------------------------------- */
+#boot-loader {
+  position: fixed;
+  inset: 0;
+  z-index: 9999;
+  background: #000;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  padding: 10vh 10vw;
+  overflow: hidden;
+  transition: opacity 0.8s ease;
+}
+
+/* Each boot message line */
+#boot-messages .boot-line {
+  color: var(--primary);
+  font-size: clamp(11px, 1.5vw, 14px);
+  line-height: 1.8;
+  /* Text appears via JS — no animation needed here */
+}
+
+/* The blinking cursor at boot end */
+#boot-cursor {
+  color: var(--primary);
+  font-size: 16px;
+  animation: blink 0.7s step-start infinite;
+  margin-top: 4px;
+}
+
+/* Fade-out class added by JS when boot finishes */
+#boot-loader.fade-out {
+  opacity: 0;
+  pointer-events: none;
+}
+
+/* ----------------------------------------------------------------
+   4. TOP NAVIGATION BAR - OS taskbar/menu bar
+---------------------------------------------------------------- */
+#topbar {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  z-index: 100;
+  height: 36px;
+  background: rgba(10, 10, 10, 0.92);
+  border-bottom: 1px solid var(--border-glow);
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0 16px;
+  backdrop-filter: blur(8px);
+}
+
+#os-logo {
+  color: var(--primary);
+  font-weight: bold;
+  font-size: 13px;
+  letter-spacing: 1px;
+  text-shadow: var(--glow-sm);
+}
+
+#topbar-center {
+  font-size: 12px;
+  color: var(--text-dim);
+}
+
+#topbar-center kbd {
+  display: inline-block;
+  padding: 1px 5px;
+  border: 1px solid var(--border-glow);
+  border-radius: 3px;
+  color: var(--primary);
+  font-size: 11px;
+}
+
+#clock {
+  color: var(--secondary);
+  font-size: 12px;
+}
+
+/* ----------------------------------------------------------------
+   5. FEATURE 2 + 3 — HERO SECTION
+   Canvas background + Terminal typing interface stacked together.
+---------------------------------------------------------------- */
+#hero {
+  position: relative;
+  width: 100%;
+  min-height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding-top: 36px;   /* offset fixed topbar */
+  overflow: hidden;
+}
+
+/* Canvas sits behind everything in the hero (Feature 3) */
+#neural-canvas {
+  position: absolute;
+  inset: 0;
+  z-index: 0;
+}
+
+/* Terminal UI container sits on top of canvas */
+#terminal-hero {
+  position: relative;
+  z-index: 1;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 28px;
+  width: 90%;
+  max-width: 860px;
+}
+
+/* ----------------------------------------------------------------
+   6. FEATURE 6 — GLITCH NAME HEADER
+   Uses ::before and ::after pseudo-elements as colour shifted
+   ghost layers that randomly offset on animation keyframes.
+---------------------------------------------------------------- */
+#glitch-name {
+  font-size: clamp(32px, 6vw, 72px);
+  font-weight: 900;
+  letter-spacing: 6px;
+  color: var(--primary);
+  position: relative;
+  text-transform: uppercase;
+  text-shadow: var(--glow-md);
+  /* The animation shifts the element and its pseudo-layers */
+  animation: glitch-main 4s infinite;
+}
+
+/* Both pseudo-elements share the same text via data-text attribute */
+#glitch-name::before,
+#glitch-name::after {
+  content: attr(data-text);       /* copies the text from HTML attribute */
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: transparent;
+}
+
+/* BEFORE layer — cyan channel, shifts left */
+#glitch-name::before {
+  color: var(--accent-blue);
+  left: 2px;
+  text-shadow: -2px 0 var(--accent-blue);
+  clip-path: polygon(0 20%, 100% 20%, 100% 40%, 0 40%);
+  animation: glitch-before 4s infinite;
+}
+
+/* AFTER layer — magenta channel, shifts right */
+#glitch-name::after {
+  color: var(--accent);
+  left: -2px;
+  text-shadow: 2px 0 var(--accent);
+  clip-path: polygon(0 60%, 100% 60%, 100% 80%, 0 80%);
+  animation: glitch-after 4s 0.1s infinite;
+}
+
+/* ----------------------------------------------------------------
+   7. FEATURE 2 — TERMINAL OUTPUT & TYPING CURSOR
+---------------------------------------------------------------- */
+#terminal-output {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  width: 100%;
+}
+
+.terminal-line {
+  font-size: clamp(13px, 1.8vw, 16px);
+  line-height: 1.5;
+}
+
+/* The green prompt (user@portfolio:~$) */
+.prompt {
+  color: var(--accent);
+  margin-right: 8px;
+  text-shadow: 0 0 6px var(--accent);
+}
+
+/* The text being typed out */
+.cmd-text {
+  color: var(--secondary);
+}
+
+/* Response lines after a command */
+.response-line {
+  color: var(--primary);
+  padding-left: 20px;
+  font-size: clamp(12px, 1.6vw, 15px);
+}
+
+.response-line::before {
+  content: '> ';
+  color: var(--accent-blue);
+}
+
+/* Blinking cursor  "_" */
+.cursor {
+  display: inline-block;
+  color: var(--primary);
+  animation: blink 0.7s step-start infinite;
+  margin-left: 2px;
+}
+
+/* ----------------------------------------------------------------
+   8. FEATURE 4 — OS FILE EXPLORER / FOLDER GRID
+---------------------------------------------------------------- */
+#file-explorer {
+  display: flex;
+  gap: 20px;
+  flex-wrap: wrap;
+  margin-top: 8px;
+}
+
+.folder {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 6px;
+  padding: 16px 20px;
+  border: 1px solid var(--border-glow);
+  border-radius: 8px;
+  background: rgba(18, 18, 18, 0.85);
+  cursor: pointer;
+  transition: var(--transition);
+  min-width: 90px;
+  backdrop-filter: blur(4px);
+  position: relative;
+  overflow: hidden;
+}
+
+/* Shimmer effect on folder hover using ::after pseudo */
+.folder::after {
+  content: '';
+  position: absolute;
+  top: -60%;
+  left: -60%;
+  width: 60%;
+  height: 200%;
+  background: linear-gradient(
+    120deg,
+    transparent,
+    rgba(0, 255, 159, 0.15),
+    transparent
+  );
+  transform: skewX(-15deg);
+  transition: left 0.4s ease;
+}
+
+.folder:hover::after {
+  left: 120%;    /* sweep across the folder */
+}
+
+.folder:hover,
+.folder:focus {
+  border-color: var(--primary);
+  box-shadow: var(--glow-md);
+  transform: translateY(-4px);
+  outline: none;
+}
+
+.folder-icon {
+  font-size: 28px;
+  filter: drop-shadow(0 0 6px var(--primary));
+}
+
+.folder-name {
+  font-size: 12px;
+  color: var(--secondary);
+  letter-spacing: 1px;
+}
+
+/* ----------------------------------------------------------------
+   9. FEATURE 4 — OS MODAL WINDOWS
+   Draggable, closable windows styled like desktop OS windows.
+---------------------------------------------------------------- */
+.os-window {
+  position: fixed;
+  z-index: 500;
+  width: min(760px, 92vw);
+  max-height: 80vh;
+  background: var(--bg-window);
+  border: 1px solid var(--border-glow);
+  border-radius: 10px;
+  box-shadow:
+    0 0 0 1px rgba(0, 255, 170, 0.1),
+    0 20px 60px rgba(0, 0, 0, 0.8),
+    0 0 30px rgba(0, 255, 170, 0.08);
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+  /* Animate in */
+  animation: window-appear 0.25s ease forwards;
+  top: 80px;
+  left: 50%;
+  transform: translateX(-50%);
+  transition: box-shadow var(--transition);
+}
+
+/* Window focused glow */
+.os-window:focus-within,
+.os-window.focused {
+  box-shadow:
+    0 0 0 1px var(--border-glow),
+    0 20px 60px rgba(0, 0, 0, 0.9),
+    0 0 40px rgba(0, 255, 170, 0.2);
+}
+
+/* ---- Title Bar ---- */
+.window-titlebar {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 10px 14px;
+  background: rgba(255, 255, 255, 0.03);
+  border-bottom: 1px solid rgba(0, 255, 170, 0.15);
+  cursor: grab;                    /* indicates draggable */
+  user-select: none;
+}
+
+.window-titlebar:active {
+  cursor: grabbing;
+}
+
+/* Three macOS-style traffic-light circles */
+.window-controls {
+  display: flex;
+  gap: 7px;
+  align-items: center;
+  flex-shrink: 0;
+}
+
+.win-btn {
+  display: block;
+  width: 13px;
+  height: 13px;
+  border-radius: 50%;
+  cursor: pointer;
+  transition: var(--transition);
+}
+
+.btn-close { background: var(--danger); }
+.btn-min   { background: var(--warn); }
+.btn-max   { background: var(--safe); }
+
+.win-btn:hover { filter: brightness(1.4); transform: scale(1.15); }
+
+.window-title {
+  color: var(--primary);
+  font-size: 13px;
+  font-weight: bold;
+  letter-spacing: 1px;
+  flex: 1;
+  text-align: center;
+}
+
+.window-path {
+  color: var(--text-dim);
+  font-size: 11px;
+}
+
+/* ---- Window Body ---- */
+.window-body {
+  flex: 1;
+  overflow-y: auto;
+  padding: 20px;
+}
+
+/* ----------------------------------------------------------------
+   10. FEATURE 5 — VS CODE STYLED PROJECT CARDS
+---------------------------------------------------------------- */
+#projects-body {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+  gap: 20px;
+}
+
+.project-card {
+  background: var(--bg-card);
+  border: 1px solid rgba(0, 255, 170, 0.2);
+  border-radius: 8px;
+  overflow: hidden;
+  transition: var(--transition);
+}
+
+.project-card:hover {
+  border-color: var(--primary);
+  box-shadow: var(--glow-sm);
+  transform: translateY(-3px);
+}
+
+/* VS Code-style title bar with 3 traffic-light dots */
+.card-titlebar {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 8px 12px;
+  background: #1a1a1a;
+  border-bottom: 1px solid rgba(0, 255, 170, 0.1);
+}
+
+.card-dot {
+  width: 10px;
+  height: 10px;
+  border-radius: 50%;
+}
+
+.dot-r { background: var(--danger); }
+.dot-y { background: var(--warn); }
+.dot-g { background: var(--safe); }
+
+.card-filename {
+  color: var(--text-dim);
+  font-size: 11px;
+  margin-left: 6px;
+  flex: 1;
+}
+
+/* Toggle button that switches Screenshot ↔ Code view */
+.card-toggle-btn {
+  font-size: 10px;
+  padding: 2px 8px;
+  border: 1px solid var(--border-glow);
+  border-radius: 3px;
+  background: transparent;
+  color: var(--primary);
+  cursor: pointer;
+  font-family: var(--font-mono);
+  transition: var(--transition);
+}
+
+.card-toggle-btn:hover {
+  background: rgba(0, 255, 159, 0.1);
+  box-shadow: var(--glow-sm);
+}
+
+/* Card screenshot view */
+.card-screenshot {
+  width: 100%;
+  aspect-ratio: 16 / 9;
+  object-fit: cover;
+  display: block;
+}
+
+.card-screenshot-placeholder {
+  width: 100%;
+  aspect-ratio: 16 / 9;
+  background: linear-gradient(135deg, #0f1a2a 0%, #0a0a1a 100%);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 40px;
+  color: rgba(0, 255, 159, 0.2);
+}
+
+/* Card code snippet view (hidden by default, shown on toggle) */
+.card-code-view {
+  display: none;
+  padding: 14px;
+}
+
+.card-code-view.active {
+  display: block;
+}
+
+.card-screenshot-view.hidden-view {
+  display: none;
+}
+
+/* Code block inside card */
+.card-code-view pre {
+  font-family: var(--font-mono);
+  font-size: 11px;
+  line-height: 1.6;
+  overflow-x: auto;
+  white-space: pre;
+  color: var(--secondary);
+}
+
+/* Basic syntax highlighting colours, applied via JS span wrapping */
+.token-keyword  { color: #ff79c6; }
+.token-string   { color: #f1fa8c; }
+.token-comment  { color: #6272a4; font-style: italic; }
+.token-function { color: var(--primary); }
+.token-number   { color: #bd93f9; }
+
+/* Card info footer */
+.card-info {
+  padding: 12px 14px;
+  border-top: 1px solid rgba(0, 255, 170, 0.08);
+}
+
+.card-title {
+  color: var(--primary);
+  font-size: 14px;
+  font-weight: bold;
+  margin-bottom: 4px;
+}
+
+.card-desc {
+  color: var(--text-dim);
+  font-size: 12px;
+  line-height: 1.5;
+}
+
+/* Language / tech badges */
+.card-tags {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+  margin-top: 10px;
+}
+
+.tag {
+  font-size: 10px;
+  padding: 2px 8px;
+  border: 1px solid rgba(0, 255, 170, 0.3);
+  border-radius: 12px;
+  color: var(--secondary);
+  letter-spacing: 0.5px;
+}
+
+/* ----------------------------------------------------------------
+   11. SKILLS WINDOW CONTENT
+---------------------------------------------------------------- */
+#skills-body {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+.skill-category {
+  margin-bottom: 8px;
+}
+
+.skill-category-title {
+  color: var(--accent);
+  font-size: 12px;
+  letter-spacing: 2px;
+  text-transform: uppercase;
+  margin-bottom: 12px;
+  text-shadow: 0 0 6px var(--accent);
+}
+
+.skill-list {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.skill-item {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.skill-name {
+  width: 140px;
+  font-size: 12px;
+  color: var(--secondary);
+  flex-shrink: 0;
+}
+
+/* Skill progress bar container */
+.skill-bar-track {
+  flex: 1;
+  height: 6px;
+  background: rgba(0, 255, 159, 0.08);
+  border-radius: 3px;
+  border: 1px solid rgba(0, 255, 170, 0.15);
+  overflow: hidden;
+}
+
+/* Animated fill bar */
+.skill-bar-fill {
+  height: 100%;
+  background: linear-gradient(90deg, var(--primary), var(--accent-blue));
+  border-radius: 3px;
+  width: 0%;                          /* starts at 0, animated by JS */
+  transition: width 1.2s cubic-bezier(0.4, 0, 0.2, 1);
+  box-shadow: 0 0 8px var(--primary);
+}
+
+.skill-percent {
+  font-size: 11px;
+  color: var(--text-dim);
+  width: 32px;
+  text-align: right;
+}
+
+/* ----------------------------------------------------------------
+   12. ABOUT WINDOW CONTENT
+---------------------------------------------------------------- */
+#about-body {
+  display: flex;
+  flex-direction: column;
+  gap: 18px;
+}
+
+.about-header {
+  display: flex;
+  align-items: center;
+  gap: 20px;
+  padding-bottom: 18px;
+  border-bottom: 1px solid rgba(0, 255, 170, 0.1);
+}
+
+.about-avatar {
+  width: 72px;
+  height: 72px;
+  border-radius: 50%;
+  border: 2px solid var(--border-glow);
+  box-shadow: var(--glow-sm);
+  background: linear-gradient(135deg, #0a1a1a, #1a0a2a);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 32px;
+  flex-shrink: 0;
+}
+
+.about-name {
+  color: var(--primary);
+  font-size: 20px;
+  font-weight: bold;
+  letter-spacing: 2px;
+}
+
+.about-role {
+  color: var(--secondary);
+  font-size: 13px;
+  margin-top: 4px;
+}
+
+/* Each section in the about window */
+.about-section {
+  border-left: 2px solid var(--primary);
+  padding-left: 14px;
+}
+
+.about-section-title {
+  color: var(--accent);
+  font-size: 11px;
+  letter-spacing: 2px;
+  text-transform: uppercase;
+  margin-bottom: 8px;
+}
+
+.about-section p {
+  color: var(--secondary);
+  font-size: 13px;
+  line-height: 1.8;
+}
+
+/* ----------------------------------------------------------------
+   13. CONTACT WINDOW CONTENT
+---------------------------------------------------------------- */
+#contact-body {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+.contact-item {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  padding: 14px 16px;
+  border: 1px solid rgba(0, 255, 170, 0.15);
+  border-radius: 8px;
+  background: rgba(255, 255, 255, 0.02);
+  transition: var(--transition);
+  text-decoration: none;
+}
+
+.contact-item:hover {
+  border-color: var(--primary);
+  box-shadow: var(--glow-sm);
+  transform: translateX(4px);
+  background: rgba(0, 255, 159, 0.04);
+}
+
+.contact-icon {
+  font-size: 22px;
+  flex-shrink: 0;
+}
+
+.contact-label {
+  color: var(--text-dim);
+  font-size: 11px;
+  letter-spacing: 1px;
+  text-transform: uppercase;
+}
+
+.contact-value {
+  color: var(--primary);
+  font-size: 13px;
+  margin-top: 2px;
+}
+
+/* ----------------------------------------------------------------
+   14. FEATURE 7 — NEON BUTTON HOVER EFFECTS
+   Applied to all .neon-btn elements.
+---------------------------------------------------------------- */
+.neon-btn {
+  display: inline-block;
+  padding: 8px 20px;
+  border: 1px solid var(--primary);
+  border-radius: 4px;
+  background: transparent;
+  color: var(--primary);
+  font-family: var(--font-mono);
+  font-size: 13px;
+  cursor: pointer;
+  letter-spacing: 1px;
+  transition: var(--transition);
+  text-decoration: none;
+  position: relative;
+  overflow: hidden;
+}
+
+/* Ripple shimmer pseudo-element */
+.neon-btn::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: var(--primary);
+  opacity: 0;
+  transition: opacity 0.2s ease;
+}
+
+/* FEATURE 7: On hover, full glow effect */
+.neon-btn:hover,
+.neon-btn:focus {
+  color: var(--bg);
+  box-shadow:
+    0 0 10px var(--primary),
+    0 0 20px var(--primary),
+    0 0 40px var(--primary);
+  text-shadow: none;
+  outline: none;
+}
+
+.neon-btn:hover::before,
+.neon-btn:focus::before {
+  opacity: 1;
+}
+
+/* The text content must sit above the ::before fill */
+.neon-btn span,
+.neon-btn {
+  position: relative;
+  z-index: 1;
+}
+
+/* ----------------------------------------------------------------
+   15. FEATURE 8 — COMMAND PALETTE
+---------------------------------------------------------------- */
+#command-palette-overlay {
+  position: fixed;
+  inset: 0;
+  z-index: 800;
+  background: rgba(0, 0, 0, 0.75);
+  backdrop-filter: blur(6px);
+  display: flex;
+  align-items: flex-start;
+  justify-content: center;
+  padding-top: 12vh;
+}
+
+#command-palette {
+  width: min(540px, 90vw);
+  background: var(--bg-window);
+  border: 1px solid var(--border-glow);
+  border-radius: 10px;
+  box-shadow:
+    0 0 0 1px rgba(0,255,170,0.15),
+    0 25px 80px rgba(0, 0, 0, 0.9),
+    0 0 40px rgba(0, 255, 170, 0.1);
+  overflow: hidden;
+  animation: window-appear 0.2s ease forwards;
+}
+
+#cp-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 10px 16px;
+  border-bottom: 1px solid rgba(0, 255, 170, 0.1);
+  background: rgba(255, 255, 255, 0.02);
+}
+
+#cp-title {
+  color: var(--primary);
+  font-size: 12px;
+  letter-spacing: 1px;
+}
+
+#cp-shortcut {
+  color: var(--text-dim);
+  font-size: 11px;
+}
+
+#cp-input {
+  width: 100%;
+  background: transparent;
+  border: none;
+  border-bottom: 1px solid rgba(0, 255, 170, 0.1);
+  color: var(--primary);
+  font-family: var(--font-mono);
+  font-size: 15px;
+  padding: 14px 16px;
+  outline: none;
+  caret-color: var(--primary);
+}
+
+#cp-input::placeholder {
+  color: var(--text-dim);
+}
+
+#cp-results {
+  list-style: none;
+  max-height: 280px;
+  overflow-y: auto;
+}
+
+.cp-item {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 12px 16px;
+  cursor: pointer;
+  transition: background 0.15s;
+  border-bottom: 1px solid rgba(0, 255, 170, 0.04);
+}
+
+.cp-item:hover,
+.cp-item.active {
+  background: rgba(0, 255, 159, 0.08);
+}
+
+.cp-item-icon {
+  font-size: 16px;
+  width: 24px;
+  text-align: center;
+}
+
+.cp-item-label {
+  color: var(--secondary);
+  font-size: 13px;
+  flex: 1;
+}
+
+.cp-item-shortcut {
+  color: var(--text-dim);
+  font-size: 11px;
+}
+
+/* ----------------------------------------------------------------
+   16. BOTTOM TASKBAR
+---------------------------------------------------------------- */
+#taskbar {
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  z-index: 100;
+  height: 44px;
+  background: rgba(10, 10, 10, 0.95);
+  border-top: 1px solid rgba(0, 255, 170, 0.2);
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0 16px;
+  backdrop-filter: blur(8px);
+}
+
+#taskbar-items {
+  display: flex;
+  gap: 8px;
+}
+
+.taskbar-window-btn {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  padding: 5px 12px;
+  border: 1px solid rgba(0, 255, 170, 0.2);
+  border-radius: 4px;
+  background: rgba(0, 255, 159, 0.04);
+  color: var(--secondary);
+  font-family: var(--font-mono);
+  font-size: 12px;
+  cursor: pointer;
+  transition: var(--transition);
+}
+
+.taskbar-window-btn:hover {
+  border-color: var(--primary);
+  color: var(--primary);
+}
+
+.taskbar-window-btn.active-window {
+  border-color: var(--primary);
+  background: rgba(0, 255, 159, 0.08);
+}
+
+/* ----------------------------------------------------------------
+   17. FEATURE 9 — BINARY HOVER TEXT
+   JS wraps keywords in .binary-word spans.
+   On hover → content switches to binary via JS.
+---------------------------------------------------------------- */
+.binary-word {
+  cursor: crosshair;
+  color: var(--primary);
+  transition: color 0.15s;
+  display: inline-block;
+}
+
+.binary-word:hover {
+  color: var(--accent-blue);
+  text-shadow: 0 0 8px var(--accent-blue);
+  letter-spacing: 1px;
+}
+
+/* ----------------------------------------------------------------
+   18. KEYFRAME ANIMATIONS
+---------------------------------------------------------------- */
+
+/* Cursor blink (used for boot and terminal) */
+@keyframes blink {
+  0%, 100% { opacity: 1; }
+  50%       { opacity: 0; }
+}
+
+/* Window pop-in */
+@keyframes window-appear {
+  from {
+    opacity: 0;
+    transform: translateX(-50%) translateY(-16px) scale(0.96);
+  }
+  to {
+    opacity: 1;
+    transform: translateX(-50%) translateY(0) scale(1);
+  }
+}
+
+/* Glitch main element subtle shimmer */
+@keyframes glitch-main {
+  0%, 90%, 100% { transform: none; text-shadow: var(--glow-md); }
+  92%  { transform: skewX(-3deg); }
+  94%  { transform: skewX(3deg); }
+  96%  { text-shadow: -3px 0 var(--accent), 3px 0 var(--accent-blue), var(--glow-md); }
+}
+
+/* BEFORE layer — shifts up/down + horizontal */
+@keyframes glitch-before {
+  0%, 88%, 100% { transform: none; opacity: 0.5; }
+  90%  { transform: translate(-3px, -2px) skewX(-5deg); opacity: 1; }
+  92%  { transform: translate(3px, 1px); }
+  94%  { transform: translate(-4px, 0); clip-path: polygon(0 10%, 100% 10%, 100% 35%, 0 35%); }
+  96%  { clip-path: polygon(0 40%, 100% 40%, 100% 55%, 0 55%); }
+}
+
+/* AFTER layer — opposite direction */
+@keyframes glitch-after {
+  0%, 88%, 100% { transform: none; opacity: 0.5; }
+  90%  { transform: translate(3px, 2px) skewX(5deg); opacity: 1; }
+  92%  { transform: translate(-3px, -1px); }
+  94%  { clip-path: polygon(0 60%, 100% 60%, 100% 75%, 0 75%); transform: translate(4px, 0); }
+  96%  { clip-path: polygon(0 78%, 100% 78%, 100% 90%, 0 90%); }
+}
+
+/* Softly pulsing glow for focused window */
+@keyframes pulse-glow {
+  0%, 100% { box-shadow: 0 0 15px rgba(0,255,170,0.1); }
+  50%       { box-shadow: 0 0 30px rgba(0,255,170,0.25); }
+}
+
+/* Skill bar wave shimmer */
+@keyframes skill-shimmer {
+  0%   { background-position: -200% center; }
+  100% { background-position: 200% center; }
+}
+
+/* ----------------------------------------------------------------
+   19. RESPONSIVENESS
+   Desktop-first with tablet and mobile breakpoints.
+---------------------------------------------------------------- */
+@media (max-width: 768px) {
+  #terminal-hero {
+    width: 95%;
+    gap: 20px;
+  }
+
+  #glitch-name {
+    font-size: clamp(24px, 8vw, 48px);
+    letter-spacing: 3px;
+  }
+
+  #file-explorer {
+    gap: 12px;
+  }
+
+  .folder {
+    padding: 12px 14px;
+    min-width: 74px;
+  }
+
+  .folder-icon {
+    font-size: 22px;
+  }
+
+  .folder-name {
+    font-size: 10px;
+  }
+
+  .os-window {
+    width: 95vw;
+    max-height: 85vh;
+    top: 50px;
+  }
+
+  .window-titlebar {
+    padding: 8px 10px;
+  }
+
+  #projects-body {
+    grid-template-columns: 1fr;
+  }
+
+  .about-header {
+    flex-direction: column;
+    text-align: center;
+  }
+
+  #cp-input {
+    font-size: 14px;
+  }
+}
+
+@media (max-width: 480px) {
+  #topbar-center {
+    display: none;    /* Hide hint on very small screens */
+  }
+
+  .terminal-line {
+    font-size: 12px;
+  }
+
+  .prompt {
+    font-size: 11px;
+  }
+}
