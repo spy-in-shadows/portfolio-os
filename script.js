@@ -30,11 +30,11 @@
 const PROJECTS = [
   {
     title: "NeuralVision",
-    desc:  "Real-time object detection system built with Python & OpenCV. Uses custom-trained YOLO model for edge deployment on Raspberry Pi.",
-    tags:  ["Python", "OpenCV", "YOLO", "AI"],
+    desc: "Real-time object detection system built with Python & OpenCV. Uses custom-trained YOLO model for edge deployment on Raspberry Pi.",
+    tags: ["Python", "OpenCV", "YOLO", "AI"],
     emoji: "🤖",
-    file:  "neural_vision.py",
-    code:  `# NeuralVision — Object Detection Pipeline
+    file: "neural_vision.py",
+    code: `# NeuralVision — Object Detection Pipeline
 import cv2
 import numpy as np
 
@@ -69,11 +69,11 @@ def detect_objects(frame, net, threshold=0.5):
   },
   {
     title: "AlgoTrader",
-    desc:  "Algorithmic stock trading bot using reinforcement learning. Backtested on 5 years of NSE data with Sharpe ratio > 1.8.",
-    tags:  ["Python", "RL", "Finance", "ML"],
+    desc: "Algorithmic stock trading bot using reinforcement learning. Backtested on 5 years of NSE data with Sharpe ratio > 1.8.",
+    tags: ["Python", "RL", "Finance", "ML"],
     emoji: "📈",
-    file:  "algo_trader.py",
-    code:  `# AlgoTrader — RL-based Trading Agent
+    file: "algo_trader.py",
+    code: `# AlgoTrader — RL-based Trading Agent
 import numpy as np
 
 class TradingEnv:
@@ -117,11 +117,11 @@ class TradingEnv:
   },
   {
     title: "LingualAI",
-    desc:  "Multi-language translator using Transformer architecture from scratch. Trained on parallel corpora for English ↔ Hindi.",
-    tags:  ["Python", "Transformers", "NLP", "Deep Learning"],
+    desc: "Multi-language translator using Transformer architecture from scratch. Trained on parallel corpora for English ↔ Hindi.",
+    tags: ["Python", "Transformers", "NLP", "Deep Learning"],
     emoji: "🌐",
-    file:  "lingual_ai.js",
-    code:  `// LingualAI — Attention is All You Need (simplified)
+    file: "lingual_ai.js",
+    code: `// LingualAI — Attention is All You Need (simplified)
 // Scaled Dot-Product Attention
 
 function scaledDotAttention(Q, K, V, dk) {
@@ -149,11 +149,11 @@ function softmax(arr) {
   },
   {
     title: "SortViz",
-    desc:  "Interactive sorting algorithm visualiser with step-by-step animation. Supports Merge, Quick, Heap and Radix sort.",
-    tags:  ["JavaScript", "Canvas", "Algorithms", "DSA"],
+    desc: "Interactive sorting algorithm visualiser with step-by-step animation. Supports Merge, Quick, Heap and Radix sort.",
+    tags: ["JavaScript", "Canvas", "Algorithms", "DSA"],
     emoji: "🔢",
-    file:  "sort_viz.js",
-    code:  `// SortViz — Merge Sort with Generator for step-by-step viz
+    file: "sort_viz.js",
+    code: `// SortViz — Merge Sort with Generator for step-by-step viz
 // Using JS Generators lets us pause/resume the sort
 
 function* mergeSort(arr, l = 0, r = arr.length - 1) {
@@ -197,26 +197,26 @@ const SKILLS = [
   {
     category: "Programming Languages",
     skills: [
-      { name: "Python",       level: 90 },
-      { name: "JavaScript",   level: 80 },
-      { name: "C++",          level: 70 },
-      { name: "SQL",          level: 65 },
+      { name: "Python", level: 90 },
+      { name: "JavaScript", level: 80 },
+      { name: "C++", level: 70 },
+      { name: "SQL", level: 65 },
     ]
   },
   {
     category: "AI / ML",
     skills: [
-      { name: "Machine Learning",  level: 85 },
-      { name: "Deep Learning",     level: 80 },
-      { name: "Computer Vision",   level: 75 },
-      { name: "NLP",               level: 72 },
+      { name: "Machine Learning", level: 85 },
+      { name: "Deep Learning", level: 80 },
+      { name: "Computer Vision", level: 75 },
+      { name: "NLP", level: 72 },
     ]
   },
   {
     category: "Tools & Frameworks",
     skills: [
-      { name: "TensorFlow",   level: 78 },
-      { name: "PyTorch",      level: 75 },
+      { name: "TensorFlow", level: 78 },
+      { name: "PyTorch", level: 75 },
       { name: "Git / GitHub", level: 88 },
       { name: "Linux / Bash", level: 82 },
     ]
@@ -233,10 +233,10 @@ const ABOUT = {
 };
 
 const CONTACTS = [
-  { icon: "✉️",  label: "Email",    value: "krishna.verma@email.com",   href: "mailto:krishna.verma@email.com" },
-  { icon: "🐙",  label: "GitHub",   value: "github.com/krishnaverma",   href: "https://github.com" },
-  { icon: "💼",  label: "LinkedIn", value: "linkedin.com/in/krishnaverma", href: "https://linkedin.com" },
-  { icon: "🐦",  label: "Twitter",  value: "@krishna_codes",             href: "https://twitter.com" },
+  { icon: "✉️", label: "Email", value: "krishna.verma@email.com", href: "mailto:krishna.verma@email.com" },
+  { icon: "🐙", label: "GitHub", value: "github.com/krishnaverma", href: "https://github.com" },
+  { icon: "💼", label: "LinkedIn", value: "linkedin.com/in/krishnaverma", href: "https://linkedin.com" },
+  { icon: "🐦", label: "Twitter", value: "@krishna_codes", href: "https://twitter.com" },
 ];
 
 /* ================================================================
@@ -275,15 +275,15 @@ const BOOT_MESSAGES = [
  * After the last line, waits 800ms then fades out the loader.
  */
 function runBootSequence() {
-  const loader   = document.getElementById("boot-loader");
-  const msgBox   = document.getElementById("boot-messages");
-  const cursor   = document.getElementById("boot-cursor");
+  const loader = document.getElementById("boot-loader");
+  const msgBox = document.getElementById("boot-messages");
+  const cursor = document.getElementById("boot-cursor");
 
   const LINE_DELAY = 130;   // ms between each boot message line
 
   // Loop through every message and schedule its DOM insertion
-  BOOT_MESSAGES.forEach(function(msg, index) {
-    setTimeout(function() {
+  BOOT_MESSAGES.forEach(function (msg, index) {
+    setTimeout(function () {
       // Create a new paragraph element for this line
       const line = document.createElement("p");
       line.classList.add("boot-line");
@@ -299,12 +299,12 @@ function runBootSequence() {
   const totalBootTime = BOOT_MESSAGES.length * LINE_DELAY + 800;
 
   // After all lines, fade out and remove the loader
-  setTimeout(function() {
+  setTimeout(function () {
     cursor.style.display = "none";           // hide cursor
     loader.classList.add("fade-out");        // trigger CSS opacity transition
 
     // Wait for fade transition (800ms in CSS), then fully remove
-    setTimeout(function() {
+    setTimeout(function () {
       loader.remove();
       // Reveal the main application
       document.getElementById("app").classList.remove("hidden");
@@ -355,40 +355,40 @@ function typeWriter(el, text, speed, onComplete) {
  */
 function runTerminalTyping() {
   // Grab all the DOM elements we'll be typing into
-  const cmdEl1  = document.getElementById("type-command-1");
+  const cmdEl1 = document.getElementById("type-command-1");
   const cursor1 = document.getElementById("cursor-1");
-  const resp1   = document.getElementById("response-block-1");
-  const resp1a  = document.getElementById("response-1a");
-  const resp1b  = document.getElementById("response-1b");
-  const resp1c  = document.getElementById("response-1c");
+  const resp1 = document.getElementById("response-block-1");
+  const resp1a = document.getElementById("response-1a");
+  const resp1b = document.getElementById("response-1b");
+  const resp1c = document.getElementById("response-1c");
 
   const cmdLine2 = document.getElementById("cmd-line-2");
-  const cmdEl2   = document.getElementById("type-command-2");
-  const cursor2  = document.getElementById("cursor-2");
-  const resp2    = document.getElementById("response-block-2");
-  const resp2a   = document.getElementById("response-2a");
-  const resp2b   = document.getElementById("response-2b");
+  const cmdEl2 = document.getElementById("type-command-2");
+  const cursor2 = document.getElementById("cursor-2");
+  const resp2 = document.getElementById("response-block-2");
+  const resp2a = document.getElementById("response-2a");
+  const resp2b = document.getElementById("response-2b");
 
   // Step 1: Type "whoami" command
-  typeWriter(cmdEl1, "whoami", 80, function() {
+  typeWriter(cmdEl1, "whoami", 80, function () {
     cursor1.style.display = "none";   // stop blinking cursor after typing
 
     // Step 2: Show response lines after short pause
-    setTimeout(function() {
+    setTimeout(function () {
       resp1.classList.remove("hidden");
-      typeWriter(resp1a, "Krishna Verma", 35, function() {
-        typeWriter(resp1b, "BTech CSE (AI & ML) · 1st Year", 35, function() {
-          typeWriter(resp1c, "AI Engineer | Problem Solver | Builder", 35, function() {
+      typeWriter(resp1a, "Krishna Verma", 35, function () {
+        typeWriter(resp1b, "BTech CSE (AI & ML) · 1st Year", 35, function () {
+          typeWriter(resp1c, "AI Engineer | Problem Solver | Builder", 35, function () {
 
             // Step 3: Show second command line after pause
-            setTimeout(function() {
+            setTimeout(function () {
               cmdLine2.classList.remove("hidden");
-              typeWriter(cmdEl2, "ls -la /interests", 80, function() {
+              typeWriter(cmdEl2, "ls -la /interests", 80, function () {
                 cursor2.style.display = "none";
 
-                setTimeout(function() {
+                setTimeout(function () {
                   resp2.classList.remove("hidden");
-                  typeWriter(resp2a, "Neural Networks · Machine Learning · Computer Vision", 25, function() {
+                  typeWriter(resp2a, "Neural Networks · Machine Learning · Computer Vision", 25, function () {
                     typeWriter(resp2b, "Algorithms · Open Source · Building Cool Things", 25, null);
                   });
                 }, 300);
@@ -420,11 +420,11 @@ const mouse = { x: -9999, y: -9999 };
 /** Neural network settings */
 const NN_CONFIG = {
   particleCount: 80,    // number of neurons
-  maxDist:       120,   // max px to draw connection line
-  radius:        2.5,   // neuron circle radius
-  speed:         0.5,   // max velocity component
-  lineWidth:     0.6,   // connection line width
-  mouseRadius:   140,   // mouse attraction radius
+  maxDist: 120,   // max px to draw connection line
+  radius: 2.5,   // neuron circle radius
+  speed: 0.5,   // max velocity component
+  lineWidth: 0.6,   // connection line width
+  mouseRadius: 140,   // mouse attraction radius
 };
 
 /**
@@ -435,8 +435,8 @@ const NN_CONFIG = {
  */
 function createParticle(w, h) {
   return {
-    x:  Math.random() * w,
-    y:  Math.random() * h,
+    x: Math.random() * w,
+    y: Math.random() * h,
     vx: (Math.random() - 0.5) * NN_CONFIG.speed * 2,  // range: -speed to +speed
     vy: (Math.random() - 0.5) * NN_CONFIG.speed * 2,
   };
@@ -458,11 +458,11 @@ function dist(x1, y1, x2, y2) {
  */
 function initNeuralCanvas() {
   const canvas = document.getElementById("neural-canvas");
-  const ctx    = canvas.getContext("2d");
+  const ctx = canvas.getContext("2d");
 
   /** Resize canvas to fill its parent section */
   function resizeCanvas() {
-    canvas.width  = canvas.parentElement.offsetWidth;
+    canvas.width = canvas.parentElement.offsetWidth;
     canvas.height = canvas.parentElement.offsetHeight;
   }
 
@@ -486,7 +486,7 @@ function initNeuralCanvas() {
     ctx.clearRect(0, 0, W, H);
 
     // --- UPDATE each particle position ---
-    particles.forEach(function(p) {
+    particles.forEach(function (p) {
       p.x += p.vx;
       p.y += p.vy;
 
@@ -514,7 +514,7 @@ function initNeuralCanvas() {
           ctx.moveTo(particles[i].x, particles[i].y);
           ctx.lineTo(particles[j].x, particles[j].y);
           ctx.strokeStyle = `rgba(0, 255, 159, ${alpha * 0.4})`;
-          ctx.lineWidth   = NN_CONFIG.lineWidth;
+          ctx.lineWidth = NN_CONFIG.lineWidth;
           ctx.stroke();
         }
       }
@@ -527,13 +527,13 @@ function initNeuralCanvas() {
         ctx.moveTo(particles[i].x, particles[i].y);
         ctx.lineTo(mouse.x, mouse.y);
         ctx.strokeStyle = `rgba(255, 0, 255, ${alpha * 0.7})`;
-        ctx.lineWidth   = 1;
+        ctx.lineWidth = 1;
         ctx.stroke();
       }
     }
 
     // --- DRAW each particle (neuron) as a glowing circle ---
-    particles.forEach(function(p) {
+    particles.forEach(function (p) {
       ctx.beginPath();
       ctx.arc(p.x, p.y, NN_CONFIG.radius, 0, Math.PI * 2);
       ctx.fillStyle = "rgba(0, 255, 159, 0.85)";
@@ -554,7 +554,7 @@ function initNeuralCanvas() {
 }
 
 // Track mouse position relative to the window for canvas interaction
-document.addEventListener("mousemove", function(e) {
+document.addEventListener("mousemove", function (e) {
   mouse.x = e.clientX;
   mouse.y = e.clientY;
 });
@@ -570,7 +570,7 @@ document.addEventListener("mousemove", function(e) {
 
 /** Tracks which window is currently being dragged */
 let dragging = {
-  el:      null,   // the .os-window element
+  el: null,   // the .os-window element
   offsetX: 0,
   offsetY: 0,
 };
@@ -617,7 +617,7 @@ function bringToFront(winEl) {
  * @param {HTMLElement} titlebar - The title bar to drag from
  */
 function makeDraggable(win, titlebar) {
-  titlebar.addEventListener("mousedown", function(e) {
+  titlebar.addEventListener("mousedown", function (e) {
     // Don't drag when clicking the control buttons
     if (e.target.classList.contains("win-btn")) return;
 
@@ -633,17 +633,17 @@ function makeDraggable(win, titlebar) {
 }
 
 // Global mousemove: update dragging window position
-document.addEventListener("mousemove", function(e) {
+document.addEventListener("mousemove", function (e) {
   if (!dragging.el) return;
 
   // Windows use fixed positioning, so set left/top directly
-  dragging.el.style.left      = (e.clientX - dragging.offsetX) + "px";
-  dragging.el.style.top       = (e.clientY - dragging.offsetY) + "px";
+  dragging.el.style.left = (e.clientX - dragging.offsetX) + "px";
+  dragging.el.style.top = (e.clientY - dragging.offsetY) + "px";
   dragging.el.style.transform = "none";   // disable the CSS centering transform
 });
 
 // Global mouseup: stop dragging
-document.addEventListener("mouseup", function() {
+document.addEventListener("mouseup", function () {
   dragging.el = null;
 });
 
@@ -652,31 +652,31 @@ document.addEventListener("mouseup", function() {
  */
 function initWindowSystem() {
   // FOLDER clicks → open corresponding window
-  document.querySelectorAll(".folder").forEach(function(folder) {
+  document.querySelectorAll(".folder").forEach(function (folder) {
     const windowId = folder.getAttribute("data-window");
 
-    folder.addEventListener("click",   function() { openWindow(windowId); });
-    folder.addEventListener("keydown", function(e) {
+    folder.addEventListener("click", function () { openWindow(windowId); });
+    folder.addEventListener("keydown", function (e) {
       if (e.key === "Enter" || e.key === " ") openWindow(windowId);
     });
   });
 
   // CLOSE buttons → close window
-  document.querySelectorAll(".btn-close").forEach(function(btn) {
-    btn.addEventListener("click", function() {
+  document.querySelectorAll(".btn-close").forEach(function (btn) {
+    btn.addEventListener("click", function () {
       closeWindow(btn.getAttribute("data-window"));
     });
   });
 
   // Make each window draggable via its title bar
-  ["projects", "skills", "about", "contact"].forEach(function(id) {
-    const win      = document.getElementById("window-" + id);
+  ["projects", "skills", "about", "contact"].forEach(function (id) {
+    const win = document.getElementById("window-" + id);
     const titlebar = document.getElementById("titlebar-" + id);
     if (win && titlebar) makeDraggable(win, titlebar);
 
     // Click anywhere on window to bring it to front
     if (win) {
-      win.addEventListener("mousedown", function() { bringToFront(win); });
+      win.addEventListener("mousedown", function () { bringToFront(win); });
     }
   });
 }
@@ -700,19 +700,39 @@ function initWindowSystem() {
  * @returns {string} HTML string with highlighted spans
  */
 function highlightCode(code) {
-  // Escape HTML entities first (prevent XSS from code strings)
+  // Step 1: Escape HTML special characters FIRST to prevent XSS
+  // and avoid regex matches on HTML entity names.
   code = code
     .replace(/&/g, "&amp;")
     .replace(/</g, "&lt;")
     .replace(/>/g, "&gt;");
 
-  // Order matters: comments first (to avoid re-colouring inside them)
-  code = code.replace(/(#.+)/g, '<span class="token-comment">$1</span>');
-  code = code.replace(/(\/\/.+)/g, '<span class="token-comment">$1</span>');
-  code = code.replace(/("(?:[^"\\]|\\.)*"|'(?:[^'\\]|\\.)*'|`(?:[^`\\]|\\.)*`)/g, '<span class="token-string">$1</span>');
-  code = code.replace(/\b(function|return|if|else|while|for|let|const|var|class|import|from|of|new|this|true|false|null|undefined|def|import|as|in|and|or|not|yield|async|await)\b/g, '<span class="token-keyword">$1</span>');
+  // Step 2: Highlight strings BEFORE comments so quoted # chars
+  // inside strings are not treated as comment starts.
+  code = code.replace(/("(?:[^"\\]|\\.)*"|'(?:[^'\\]|\\.)*'|`(?:[^`\\]|\\.)*`)/g,
+    '<span class="token-string">$1</span>');
+
+  // Step 3: Python-style comments (# at start of token, not inside entities)
+  // Use word boundary / line start approach to avoid matching &amp; etc.
+  code = code.replace(/((?:^|\s)(#[^\n]*))/gm, function (match, p1, p2) {
+    return p1.replace(p2, '<span class="token-comment">' + p2 + '</span>');
+  });
+
+  // Step 4: JS-style // comments
+  code = code.replace(/(\/\/[^\n]*)/g, '<span class="token-comment">$1</span>');
+
+  // Step 5: Keywords
+  code = code.replace(
+    /\b(function|return|if|else|while|for|let|const|var|class|import|from|of|new|this|true|false|null|undefined|def|as|in|and|or|not|yield|async|await)\b/g,
+    '<span class="token-keyword">$1</span>'
+  );
+
+  // Step 6: Numbers
   code = code.replace(/\b(\d+\.?\d*)\b/g, '<span class="token-number">$1</span>');
-  code = code.replace(/\b([a-zA-Z_][a-zA-Z0-9_]*)\s*(?=\()/g, '<span class="token-function">$1</span>');
+
+  // Step 7: Function calls (word followed by open paren)
+  code = code.replace(/\b([a-zA-Z_][a-zA-Z0-9_]*)\s*(?=\()/g,
+    '<span class="token-function">$1</span>');
 
   return code;
 }
@@ -769,7 +789,7 @@ function buildProjectCard(project) {
   const toggleBtn = titlebar.querySelector(".card-toggle-btn");
   let showingCode = false;
 
-  toggleBtn.addEventListener("click", function() {
+  toggleBtn.addEventListener("click", function () {
     showingCode = !showingCode;
 
     if (showingCode) {
@@ -803,16 +823,16 @@ function populateWindow(windowId) {
   populated[windowId] = true;
 
   if (windowId === "projects") populateProjects();
-  if (windowId === "skills")   populateSkills();
-  if (windowId === "about")    populateAbout();
-  if (windowId === "contact")  populateContact();
+  if (windowId === "skills") populateSkills();
+  if (windowId === "about") populateAbout();
+  if (windowId === "contact") populateContact();
 }
 
 /** Renders all project cards into the Projects window */
 function populateProjects() {
   const body = document.getElementById("projects-body");
   body.innerHTML = "";
-  PROJECTS.forEach(function(proj) {
+  PROJECTS.forEach(function (proj) {
     body.appendChild(buildProjectCard(proj));
   });
 }
@@ -822,7 +842,7 @@ function populateSkills() {
   const body = document.getElementById("skills-body");
   body.innerHTML = "";
 
-  SKILLS.forEach(function(cat) {
+  SKILLS.forEach(function (cat) {
     const catEl = document.createElement("div");
     catEl.classList.add("skill-category");
 
@@ -831,7 +851,7 @@ function populateSkills() {
     const list = document.createElement("div");
     list.classList.add("skill-list");
 
-    cat.skills.forEach(function(skill) {
+    cat.skills.forEach(function (skill) {
       const item = document.createElement("div");
       item.classList.add("skill-item");
       item.innerHTML = `
@@ -849,9 +869,9 @@ function populateSkills() {
   });
 
   // Animate bars after a short delay (allows layout to settle)
-  requestAnimationFrame(function() {
-    setTimeout(function() {
-      document.querySelectorAll(".skill-bar-fill").forEach(function(bar) {
+  requestAnimationFrame(function () {
+    setTimeout(function () {
+      document.querySelectorAll(".skill-bar-fill").forEach(function (bar) {
         bar.style.width = bar.getAttribute("data-level") + "%";
       });
     }, 100);
@@ -891,7 +911,7 @@ function populateAbout() {
 /** Renders the Contact section */
 function populateContact() {
   const body = document.getElementById("contact-body");
-  body.innerHTML = CONTACTS.map(function(c) {
+  body.innerHTML = CONTACTS.map(function (c) {
     return `
       <a class="contact-item" href="${c.href}" target="_blank" rel="noopener noreferrer">
         <span class="contact-icon">${c.icon}</span>
@@ -918,11 +938,11 @@ function addTaskbarEntry(id) {
 
   const bar = document.getElementById("taskbar-items");
   const btn = document.createElement("button");
-  btn.id        = "tb-" + id;
+  btn.id = "tb-" + id;
   btn.className = "taskbar-window-btn active-window";
   btn.textContent = "📁 " + id.charAt(0).toUpperCase() + id.slice(1);
 
-  btn.addEventListener("click", function() {
+  btn.addEventListener("click", function () {
     const win = document.getElementById("window-" + id);
     if (win && win.classList.contains("hidden")) {
       win.classList.remove("hidden");
@@ -950,7 +970,7 @@ function updateClock() {
   if (!el) return;
   const now = new Date();
   el.textContent = now.toLocaleTimeString("en-IN", {
-    hour:   "2-digit",
+    hour: "2-digit",
     minute: "2-digit",
     second: "2-digit",
     hour12: false
@@ -970,14 +990,16 @@ function updateClock() {
 
 /** All available commands */
 const COMMANDS = [
-  { icon: "📁", label: "Projects",   shortcut: "P", action: function() { openWindow("projects"); } },
-  { icon: "⚡", label: "Skills",     shortcut: "S", action: function() { openWindow("skills");   } },
-  { icon: "👋", label: "About",      shortcut: "A", action: function() { openWindow("about");    } },
-  { icon: "✉️", label: "Contact",    shortcut: "C", action: function() { openWindow("contact");  } },
-  { icon: "⬇", label: "Resume",     shortcut: "R", action: function() { alert("📄 Resume download would open here!"); } },
-  { icon: "🔄", label: "Close All",  shortcut: "X", action: function() {
-    ["projects","skills","about","contact"].forEach(closeWindow);
-  }},
+  { icon: "📁", label: "Projects", shortcut: "P", action: function () { openWindow("projects"); } },
+  { icon: "⚡", label: "Skills", shortcut: "S", action: function () { openWindow("skills"); } },
+  { icon: "👋", label: "About", shortcut: "A", action: function () { openWindow("about"); } },
+  { icon: "✉️", label: "Contact", shortcut: "C", action: function () { openWindow("contact"); } },
+  { icon: "⬇", label: "Resume", shortcut: "R", action: function () { alert("📄 Resume download would open here!"); } },
+  {
+    icon: "🔄", label: "Close All", shortcut: "X", action: function () {
+      ["projects", "skills", "about", "contact"].forEach(closeWindow);
+    }
+  },
 ];
 
 let cpActiveIndex = 0;   // currently highlighted command index
@@ -989,14 +1011,14 @@ let cpActiveIndex = 0;   // currently highlighted command index
 function renderCommandList(filtered) {
   const list = document.getElementById("cp-results");
   list.innerHTML = "";
-  cpActiveIndex  = 0;
+  cpActiveIndex = 0;
 
   if (filtered.length === 0) {
     list.innerHTML = `<li class="cp-item" style="color:var(--text-dim)">No commands found</li>`;
     return;
   }
 
-  filtered.forEach(function(cmd, idx) {
+  filtered.forEach(function (cmd, idx) {
     const li = document.createElement("li");
     li.classList.add("cp-item");
     if (idx === 0) li.classList.add("active");   // highlight first item
@@ -1006,7 +1028,7 @@ function renderCommandList(filtered) {
       <span class="cp-item-shortcut">${cmd.shortcut}</span>
     `;
     // Click executes the command and closes palette
-    li.addEventListener("click", function() {
+    li.addEventListener("click", function () {
       cmd.action();
       closePalette();
     });
@@ -1016,7 +1038,7 @@ function renderCommandList(filtered) {
 
 function openPalette() {
   const overlay = document.getElementById("command-palette-overlay");
-  const input   = document.getElementById("cp-input");
+  const input = document.getElementById("cp-input");
   overlay.classList.remove("hidden");
   input.value = "";
   input.focus();
@@ -1029,10 +1051,10 @@ function closePalette() {
 
 function initCommandPalette() {
   const overlay = document.getElementById("command-palette-overlay");
-  const input   = document.getElementById("cp-input");
+  const input = document.getElementById("cp-input");
 
   // Ctrl + K → open palette
-  document.addEventListener("keydown", function(e) {
+  document.addEventListener("keydown", function (e) {
     if (e.ctrlKey && e.key === "k") {
       e.preventDefault();    // stop browser default (focus address bar)
       openPalette();
@@ -1041,13 +1063,13 @@ function initCommandPalette() {
   });
 
   // Click outside palette panel → close
-  overlay.addEventListener("click", function(e) {
+  overlay.addEventListener("click", function (e) {
     if (e.target === overlay) closePalette();
   });
 
   // Filter commands as user types
-  input.addEventListener("input", function() {
-    const query    = input.value.toLowerCase().trim();
+  input.addEventListener("input", function () {
+    const query = input.value.toLowerCase().trim();
     const filtered = COMMANDS.filter(cmd =>
       cmd.label.toLowerCase().includes(query)
     );
@@ -1055,7 +1077,7 @@ function initCommandPalette() {
   });
 
   // Keyboard navigation inside palette
-  input.addEventListener("keydown", function(e) {
+  input.addEventListener("keydown", function (e) {
     const items = document.querySelectorAll(".cp-item");
     if (!items.length) return;
 
@@ -1107,8 +1129,8 @@ function toBinary(str) {
   return str
     .split("")                                       // ["A", "I"]
     .map(char => char.charCodeAt(0)                  // [65, 73]
-                     .toString(2)                    // ["1000001", "1001001"]
-                     .padStart(8, "0"))              // ["01000001", "01001001"]
+      .toString(2)                    // ["1000001", "1001001"]
+      .padStart(8, "0"))              // ["01000001", "01001001"]
     .join(" ");                                      // "01000001 01001001"
 }
 
@@ -1130,7 +1152,7 @@ function applyBinaryHover(container) {
     nodesToProcess.push(walker.currentNode);
   }
 
-  nodesToProcess.forEach(function(textNode) {
+  nodesToProcess.forEach(function (textNode) {
     const text = textNode.nodeValue;
 
     // Build a regex that matches any of our target words (word boundary)
@@ -1141,7 +1163,7 @@ function applyBinaryHover(container) {
 
     // Create a temporary container to hold new HTML
     const temp = document.createElement("span");
-    temp.innerHTML = text.replace(pattern, function(match) {
+    temp.innerHTML = text.replace(pattern, function (match) {
       return `<span class="binary-word" data-original="${match}">${match}</span>`;
     });
 
@@ -1150,15 +1172,15 @@ function applyBinaryHover(container) {
   });
 
   // Attach hover listeners to the newly created .binary-word spans
-  container.querySelectorAll(".binary-word").forEach(function(span) {
+  container.querySelectorAll(".binary-word").forEach(function (span) {
     const original = span.getAttribute("data-original");
-    const binary   = toBinary(original);
+    const binary = toBinary(original);
 
-    span.addEventListener("mouseenter", function() {
+    span.addEventListener("mouseenter", function () {
       span.textContent = binary;
     });
 
-    span.addEventListener("mouseleave", function() {
+    span.addEventListener("mouseleave", function () {
       span.textContent = original;
     });
   });
@@ -1186,13 +1208,13 @@ function initApp() {
 
   // Apply binary hover to response lines (where the keywords appear)
   // We wait a moment so the typewriter has time to populate them
-  setTimeout(function() {
+  setTimeout(function () {
     const respLines = document.querySelectorAll(".response-line");
     respLines.forEach(applyBinaryHover);
   }, 6000);   // 6s gives typing sequence time to finish
 
   // Resume button
-  document.getElementById("resume-btn").addEventListener("click", function() {
+  document.getElementById("resume-btn").addEventListener("click", function () {
     alert("📄 Resume download would open here!\nAdd your PDF link to the CONTACTS array.");
   });
 }
@@ -1200,6 +1222,6 @@ function initApp() {
 /* ================================================================
    ENTRY POINT — everything starts here
 ================================================================ */
-document.addEventListener("DOMContentLoaded", function() {
+document.addEventListener("DOMContentLoaded", function () {
   runBootSequence();
 });
