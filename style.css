@@ -732,6 +732,68 @@ body {
     text-align: right;
 }
 
+/* Competitive Programming platform profile link cards */
+.cp-profile-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 10px;
+    margin-top: 4px;
+}
+
+.cp-profile-card {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    padding: 12px 14px;
+    border: 1px solid rgba(0, 255, 170, 0.18);
+    border-radius: 7px;
+    background: rgba(255, 255, 255, 0.02);
+    text-decoration: none;
+    transition: border-color 0.2s ease, background 0.2s ease, transform 0.2s ease;
+    cursor: pointer;
+}
+
+.cp-profile-card:hover {
+    border-color: var(--primary);
+    background: rgba(0, 255, 159, 0.05);
+    transform: translateY(-2px);
+}
+
+.cp-platform-icon {
+    font-size: 22px;
+    flex-shrink: 0;
+}
+
+.cp-platform-info {
+    display: flex;
+    flex-direction: column;
+    gap: 2px;
+    flex: 1;
+}
+
+.cp-platform-name {
+    color: var(--primary);
+    font-size: 13px;
+    font-weight: bold;
+    letter-spacing: 0.5px;
+}
+
+.cp-platform-handle {
+    color: var(--text-dim);
+    font-size: 11px;
+}
+
+.cp-arrow {
+    color: var(--text-dim);
+    font-size: 14px;
+    transition: color 0.2s ease, transform 0.2s ease;
+}
+
+.cp-profile-card:hover .cp-arrow {
+    color: var(--primary);
+    transform: translateX(3px);
+}
+
 /* ----------------------------------------------------------------
    12. ABOUT WINDOW CONTENT
 ---------------------------------------------------------------- */
@@ -740,6 +802,7 @@ body {
     flex-direction: column;
     gap: 18px;
 }
+
 
 .about-header {
     display: flex;

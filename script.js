@@ -292,25 +292,43 @@ const SKILLS = [
     category: "Programming Languages",
     skills: [
       { name: "Python", level: 90 },
-      { name: "JavaScript", level: 80 },
+      { name: "JavaScript", level: 90 },
       { name: "C++", level: 70 },
-      { name: "SQL", level: 65 },
     ]
   },
   {
-    category: "AI / ML",
-    skills: [
-      { name: "Machine Learning", level: 85 },
-      { name: "Deep Learning", level: 80 },
-      { name: "Computer Vision", level: 75 },
-      { name: "NLP", level: 72 },
+    category: "Problem Solving",
+    // `links` array renders as clickable profile cards, not progress bars
+    links: [
+      {
+        platform: "Codeforces",
+        icon: "⚔️",
+        handle: "spy_in_shadows",
+        url: "https://codeforces.com/profile/spy_in_shadows"
+      },
+      {
+        platform: "CodeChef",
+        icon: "👨‍🍳",
+        handle: "spy_in_shadows",
+        url: "https://www.codechef.com/users/spy_in_shadows"
+      },
+      {
+        platform: "LeetCode",
+        icon: "🧩",
+        handle: "spy_in_shadows",
+        url: "https://leetcode.com/u/spy_in_shadows/"
+      },
+      {
+        platform: "AtCoder",
+        icon: "🎯",
+        handle: "spy_in_shadows",
+        url: "https://atcoder.jp/users/spy_in_shadows"
+      },
     ]
   },
   {
     category: "Tools & Frameworks",
     skills: [
-      { name: "TensorFlow", level: 78 },
-      { name: "PyTorch", level: 75 },
       { name: "Git / GitHub", level: 88 },
       { name: "Linux / Bash", level: 82 },
     ]
@@ -943,30 +961,58 @@ function populateSkills() {
   SKILLS.forEach(function (cat) {
     const catEl = document.createElement("div");
     catEl.classList.add("skill-category");
-
     catEl.innerHTML = `<div class="skill-category-title">${cat.category}</div>`;
 
-    const list = document.createElement("div");
-    list.classList.add("skill-list");
+    // ── Branch A: categories with a `links` array → profile link cards ──
+    if (cat.links) {
+      const grid = document.createElement("div");
+      grid.classList.add("cp-profile-grid");
 
-    cat.skills.forEach(function (skill) {
-      const item = document.createElement("div");
-      item.classList.add("skill-item");
-      item.innerHTML = `
-        <span class="skill-name">${skill.name}</span>
-        <div class="skill-bar-track">
-          <div class="skill-bar-fill" data-level="${skill.level}"></div>
-        </div>
-        <span class="skill-percent">${skill.level}%</span>
-      `;
-      list.appendChild(item);
-    });
+      cat.links.forEach(function (link) {
+        // Each platform is an anchor that opens in a new tab
+        const card = document.createElement("a");
+        card.classList.add("cp-profile-card");
+        card.href = link.url;
+        card.target = "_blank";
+        card.rel = "noopener noreferrer";
+        card.innerHTML = `
+          <span class="cp-platform-icon">${link.icon}</span>
+          <div class="cp-platform-info">
+            <span class="cp-platform-name">${link.platform}</span>
+            <span class="cp-platform-handle">@${link.handle}</span>
+          </div>
+          <span class="cp-arrow">→</span>
+        `;
+        grid.appendChild(card);
+      });
 
-    catEl.appendChild(list);
+      catEl.appendChild(grid);
+
+      // ── Branch B: categories with a `skills` array → progress bars ──
+    } else if (cat.skills) {
+      const list = document.createElement("div");
+      list.classList.add("skill-list");
+
+      cat.skills.forEach(function (skill) {
+        const item = document.createElement("div");
+        item.classList.add("skill-item");
+        item.innerHTML = `
+          <span class="skill-name">${skill.name}</span>
+          <div class="skill-bar-track">
+            <div class="skill-bar-fill" data-level="${skill.level}"></div>
+          </div>
+          <span class="skill-percent">${skill.level}%</span>
+        `;
+        list.appendChild(item);
+      });
+
+      catEl.appendChild(list);
+    }
+
     body.appendChild(catEl);
   });
 
-  // Animate bars after a short delay (allows layout to settle)
+  // Animate progress bars after layout settles
   requestAnimationFrame(function () {
     setTimeout(function () {
       document.querySelectorAll(".skill-bar-fill").forEach(function (bar) {
