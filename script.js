@@ -26,169 +26,263 @@
    Centralised here for easy editing.
 ================================================================ */
 
-/** @type {Array<{title, desc, tags, emoji, file, code}>} */
+/** @type {Array<{title, desc, tags, emoji, file, code, link}>} */
 const PROJECTS = [
   {
-    title: "NeuralVision",
-    desc: "Real-time object detection system built with Python & OpenCV. Uses custom-trained YOLO model for edge deployment on Raspberry Pi.",
-    tags: ["Python", "OpenCV", "YOLO", "AI"],
-    emoji: "🤖",
-    file: "neural_vision.py",
-    code: `# NeuralVision — Object Detection Pipeline
-import cv2
-import numpy as np
+    title: "Stock-Portfolio-Risk-Analyzer",
+    desc: "A full-featured stock portfolio risk analysis dashboard. Fetches live market data, calculates risk metrics (VaR, Sharpe, Beta), and visualises portfolio performance with interactive charts.",
+    tags: ["JavaScript", "Finance", "Charts", "Risk"],
+    emoji: "📊",
+    file: "risk_analyzer.js",
+    link: "https://github.com/spy-in-shadows/Stock-Portfolio-Risk-Analyzer",
+    code: `// Stock Portfolio Risk Analyzer
+// Value at Risk (VaR) calculation — Historical Simulation method
 
-def load_model(weights_path):
-    """Load YOLO model from disk."""
-    net = cv2.dnn.readNet(weights_path)
-    net.setPreferableBackend(cv2.dnn.DNN_BACKEND_CUDA)
-    return net
+function calculateVaR(returns, confidenceLevel = 0.95) {
+  // Step 1: Sort daily returns in ascending order
+  const sorted = [...returns].sort((a, b) => a - b);
 
-def detect_objects(frame, net, threshold=0.5):
-    """Run forward pass and extract bounding boxes."""
-    blob = cv2.dnn.blobFromImage(
-        frame, 1/255.0, (416, 416),
-        swapRB=True, crop=False
-    )
-    net.setInput(blob)
-    outputs = net.forward()
+  // Step 2: Find the index at the (1 - confidence) percentile
+  // e.g. for 95% confidence: look at the bottom 5% of returns
+  const index = Math.floor((1 - confidenceLevel) * sorted.length);
 
-    boxes, confidences = [], []
-    for detection in outputs:
-        score = detection[5:]
-        class_id = np.argmax(score)
-        confidence = score[class_id]
-        if confidence > threshold:
-            cx, cy, w, h = (detection[0:4] * np.array([
-                frame.shape[1], frame.shape[0],
-                frame.shape[1], frame.shape[0]
-            ])).astype(int)
-            boxes.append([cx - w//2, cy - h//2, w, h])
-            confidences.append(float(confidence))
-    return boxes, confidences`
+  // Step 3: The VaR is the loss at that cutoff point
+  const var95 = sorted[index];
+
+  return {
+    var95: (var95 * 100).toFixed(2) + '%',
+    interpretation: 'With 95% confidence, max 1-day loss will not exceed ' +
+                    Math.abs(var95 * 100).toFixed(2) + '%'
+  };
+}
+
+// Sharpe Ratio = (Portfolio Return - Risk Free Rate) / Std Deviation
+function sharpeRatio(returns, riskFreeRate = 0.06 / 252) {
+  const mean = returns.reduce((a, b) => a + b, 0) / returns.length;
+  const variance = returns.reduce((s, r) =>
+    s + Math.pow(r - mean, 2), 0) / returns.length;
+  const stdDev = Math.sqrt(variance);
+  return ((mean - riskFreeRate) / stdDev * Math.sqrt(252)).toFixed(3);
+}`
   },
   {
-    title: "AlgoTrader",
-    desc: "Algorithmic stock trading bot using reinforcement learning. Backtested on 5 years of NSE data with Sharpe ratio > 1.8.",
-    tags: ["Python", "RL", "Finance", "ML"],
-    emoji: "📈",
-    file: "algo_trader.py",
-    code: `# AlgoTrader — RL-based Trading Agent
+    title: "AI Galactic Intelligence Engine",
+    desc: "AI-powered 3D Galactic Intelligence System built with Three.js, ML, NLP and Graph Intelligence. Visualises cosmic data relationships in an immersive 3D environment.",
+    tags: ["Python", "Three.js", "ML", "NLP", "3D"],
+    emoji: "🌌",
+    file: "galactic_engine.py",
+    link: "https://github.com/spy-in-shadows/ai-galactic-intelligence-engine",
+    code: `# AI Galactic Intelligence Engine
+# Graph-based knowledge representation of cosmic entities
+
 import numpy as np
 
-class TradingEnv:
-    """Custom OpenAI Gym-style environment for stock trading."""
-    def __init__(self, prices, initial_balance=100000):
-        self.prices = prices
-        self.balance = initial_balance
-        self.position = 0   # shares held
-        self.step_idx = 0
+class GalacticGraph:
+    """Represents cosmic entities as nodes in a knowledge graph."""
 
-    def reset(self):
-        self.balance = 100000
-        self.position = 0
-        self.step_idx = 0
-        return self._get_state()
+    def __init__(self):
+        self.nodes = {}   # entity_id -> { name, type, embeddings }
+        self.edges = []   # (src_id, dst_id, relation, weight)
 
-    def _get_state(self):
-        """Return a feature vector for the RL agent."""
-        window = self.prices[max(0, self.step_idx-10):self.step_idx+1]
-        returns = np.diff(window) / window[:-1]
-        return np.array([
-            self.balance / 100000,
-            self.position,
-            *returns[-5:]          # last 5 daily returns
-        ])
+    def add_entity(self, entity_id, name, entity_type, features):
+        """Add a cosmic entity (star, galaxy, black hole) as a node."""
+        # Generate a 128-dim embedding from raw astronomical features
+        embedding = self._encode_features(features)
+        self.nodes[entity_id] = {
+            'name': name, 'type': entity_type,
+            'embedding': embedding
+        }
 
-    def step(self, action):
-        """action: 0=hold, 1=buy, 2=sell"""
-        price = self.prices[self.step_idx]
-        reward = 0
-        if action == 1 and self.balance >= price:
-            self.position += 1
-            self.balance  -= price
-        elif action == 2 and self.position > 0:
-            self.position -= 1
-            self.balance  += price
-            reward = price - self.prices[self.step_idx - 1]
-        self.step_idx += 1
-        done = self.step_idx >= len(self.prices) - 1
-        return self._get_state(), reward, done`
+    def _encode_features(self, features):
+        """Map raw features to fixed-size embedding via random projection."""
+        W = np.random.randn(len(features), 128) / np.sqrt(128)
+        return np.tanh(np.array(features) @ W)
+
+    def find_similar(self, entity_id, top_k=5):
+        """Cosine similarity search across all graph nodes."""
+        query = self.nodes[entity_id]['embedding']
+        scores = {}
+        for nid, node in self.nodes.items():
+            if nid == entity_id: continue
+            dot   = np.dot(query, node['embedding'])
+            norms = np.linalg.norm(query) * np.linalg.norm(node['embedding'])
+            scores[nid] = dot / (norms + 1e-8)
+        return sorted(scores, key=scores.get, reverse=True)[:top_k]`
   },
   {
-    title: "LingualAI",
-    desc: "Multi-language translator using Transformer architecture from scratch. Trained on parallel corpora for English ↔ Hindi.",
-    tags: ["Python", "Transformers", "NLP", "Deep Learning"],
-    emoji: "🌐",
-    file: "lingual_ai.js",
-    code: `// LingualAI — Attention is All You Need (simplified)
-// Scaled Dot-Product Attention
+    title: "Comsic Chronicles",
+    desc: "An immersive space-themed interactive web experience with rich animations, cosmic storytelling, and a stunning visual journey through the universe.",
+    tags: ["HTML", "CSS", "JavaScript", "Animation"],
+    emoji: "🚀",
+    file: "cosmic_chronicles.js",
+    link: "https://spy-in-shadows.github.io/Comsic_Chronicles/",
+    code: `// Cosmic Chronicles — Parallax starfield engine
+// Creates a multi-layer depth illusion with canvas particles
 
-function scaledDotAttention(Q, K, V, dk) {
-  // Step 1: Compute raw scores  Q · K^T
-  const scores = matMul(Q, transpose(K));
+const LAYERS = [
+  { count: 200, speed: 0.1, size: 0.8, opacity: 0.5 },  // distant stars
+  { count: 100, speed: 0.3, size: 1.4, opacity: 0.7 },  // mid stars
+  { count:  40, speed: 0.7, size: 2.2, opacity: 1.0 },  // near stars
+];
 
-  // Step 2: Scale by sqrt(dk) to prevent vanishing gradients
-  const scaled = scores.map(row =>
-    row.map(val => val / Math.sqrt(dk))
+function initStarfield(canvas) {
+  const ctx = canvas.getContext('2d');
+  const W = canvas.width, H = canvas.height;
+
+  // Generate stars for each depth layer
+  const stars = LAYERS.flatMap(layer =>
+    Array.from({ length: layer.count }, () => ({
+      x: Math.random() * W,
+      y: Math.random() * H,
+      size:    layer.size,
+      speed:   layer.speed,
+      opacity: layer.opacity,
+    }))
   );
 
-  // Step 3: Softmax across the key dimension
-  const weights = scaled.map(row => softmax(row));
+  function draw() {
+    ctx.fillStyle = 'rgba(0, 0, 10, 0.15)';  // trailing fade
+    ctx.fillRect(0, 0, W, H);
 
-  // Step 4: Weighted sum of values
-  return matMul(weights, V);
-}
+    stars.forEach(star => {
+      star.y += star.speed;           // move downward (warp effect)
+      if (star.y > H) star.y = 0;    // wrap around to top
 
-function softmax(arr) {
-  const max = Math.max(...arr);          // numerical stability trick
-  const exps = arr.map(x => Math.exp(x - max));
-  const sum  = exps.reduce((a, b) => a + b, 0);
-  return exps.map(e => e / sum);
+      ctx.beginPath();
+      ctx.arc(star.x, star.y, star.size, 0, Math.PI * 2);
+      ctx.fillStyle = 'rgba(255,255,255,' + star.opacity + ')';
+      ctx.fill();
+    });
+    requestAnimationFrame(draw);
+  }
+  draw();
 }`
   },
   {
-    title: "SortViz",
-    desc: "Interactive sorting algorithm visualiser with step-by-step animation. Supports Merge, Quick, Heap and Radix sort.",
-    tags: ["JavaScript", "Canvas", "Algorithms", "DSA"],
-    emoji: "🔢",
-    file: "sort_viz.js",
-    code: `// SortViz — Merge Sort with Generator for step-by-step viz
-// Using JS Generators lets us pause/resume the sort
+    title: "balanceShEEt",
+    desc: "A business analyst app that creates interactive charts and forecasts financial data. Helps users visualise balance sheets, P&L statements, and predict future trends.",
+    tags: ["JavaScript", "Charts", "Finance", "Data"],
+    emoji: "💹",
+    file: "balance_sheet.js",
+    link: "https://github.com/spy-in-shadows/balanceShEEt",
+    code: `// balanceShEEt — Linear regression forecasting engine
+// Predicts future values from historical financial data
 
-function* mergeSort(arr, l = 0, r = arr.length - 1) {
-  if (l >= r) return;
+function linearRegression(xVals, yVals) {
+  const n  = xVals.length;
+  const sx = xVals.reduce((a, b) => a + b, 0);
+  const sy = yVals.reduce((a, b) => a + b, 0);
 
-  const mid = Math.floor((l + r) / 2);
+  // Sum of products and sum of squares
+  let sxy = 0, sxx = 0;
+  for (let i = 0; i < n; i++) {
+    sxy += xVals[i] * yVals[i];
+    sxx += xVals[i] * xVals[i];
+  }
 
-  // Recursively sort both halves
-  yield* mergeSort(arr, l, mid);
-  yield* mergeSort(arr, mid + 1, r);
+  // Slope (m) and intercept (b) via least squares formula
+  const m = (n * sxy - sx * sy) / (n * sxx - sx * sx);
+  const b = (sy - m * sx) / n;
 
-  // Merge the sorted halves
-  yield* merge(arr, l, mid, r);
+  return {
+    slope:     m,
+    intercept: b,
+    // Predict the value at any future quarter x
+    predict:   (x) => m * x + b,
+    // R-squared goodness-of-fit score
+    r2: (() => {
+      const yMean = sy / n;
+      const ssTot = yVals.reduce((s, y) => s + (y - yMean) ** 2, 0);
+      const ssRes = yVals.reduce((s, y, i) =>
+        s + (y - (m * xVals[i] + b)) ** 2, 0);
+      return (1 - ssRes / ssTot).toFixed(4);
+    })()
+  };
+}`
+  },
+  {
+    title: "Art Gallery Virtual Tour",
+    desc: "An immersive 3D virtual art gallery experience. Walk through curated exhibition rooms, interact with artworks, and enjoy a museum-quality tour from any browser.",
+    tags: ["JavaScript", "3D", "WebGL", "Interactive"],
+    emoji: "�️",
+    file: "gallery_tour.js",
+    link: "https://github.com/spy-in-shadows/Art-Gallery-Virtual-Tour",
+    code: `// Art Gallery Virtual Tour — Room collision detection
+// Prevents the camera from walking through gallery walls
+
+class GalleryRoom {
+  constructor(bounds) {
+    // bounds: { minX, maxX, minZ, maxZ } defining room walls
+    this.bounds = bounds;
+    this.artworks = [];   // placed artwork objects in this room
+  }
+
+  // Check if a proposed camera position is inside the room
+  isInsideRoom(x, z, margin = 0.5) {
+    const b = this.bounds;
+    return (
+      x > b.minX + margin &&
+      x < b.maxX - margin &&
+      z > b.minZ + margin &&
+      z < b.maxZ - margin
+    );
+  }
+
+  // Clamp camera position to stay within walls
+  clampPosition(x, z, margin = 0.5) {
+    const b = this.bounds;
+    return {
+      x: Math.max(b.minX + margin, Math.min(b.maxX - margin, x)),
+      z: Math.max(b.minZ + margin, Math.min(b.maxZ - margin, z)),
+    };
+  }
+
+  // Raycast to check if user clicked on an artwork
+  getClickedArtwork(ray) {
+    return this.artworks.find(art => art.intersectsRay(ray)) || null;
+  }
+}`
+  },
+  {
+    title: "sci_fi_form",
+    desc: "A sleek, futuristic HTML form that is as modern and sci-fi as your imagination. Features glowing inputs, animated validation, and a cyberpunk aesthetic.",
+    tags: ["HTML", "CSS", "JavaScript", "UI/UX"],
+    emoji: "🛸",
+    file: "sci_fi_form.js",
+    link: "https://github.com/spy-in-shadows/sci_fi_form",
+    code: `// sci_fi_form — Real-time animated field validation
+// Each field shows live feedback with neon glow states
+
+const VALIDATORS = {
+  name:  { regex: /^[A-Za-z\s]{2,}$/,  msg: 'Full name required'         },
+  email: { regex: /^[^\s@]+@[^\s@]+\.[^\s@]+$/, msg: 'Invalid email'     },
+  code:  { regex: /^[A-Z0-9]{6,10}$/,  msg: '6-10 chars, uppercase only' },
+};
+
+function validateField(fieldName, value) {
+  const rule = VALIDATORS[fieldName];
+  if (!rule) return { valid: true };
+
+  const isValid = rule.regex.test(value.trim());
+  return { valid: isValid, message: isValid ? '✓ Looks good' : '✗ ' + rule.msg };
 }
 
-function* merge(arr, l, mid, r) {
-  const left  = arr.slice(l, mid + 1);
-  const right = arr.slice(mid + 1, r + 1);
-  let i = 0, j = 0, k = l;
+// Apply glowing border based on validation state
+function applyGlowState(inputEl, state) {
+  inputEl.classList.remove('glow-valid', 'glow-invalid', 'glow-idle');
 
-  while (i < left.length && j < right.length) {
-    // Highlight comparison — yield so renderer can draw
-    yield { comparing: [l + i, mid + 1 + j] };
+  if (state === 'valid')   inputEl.classList.add('glow-valid');
+  if (state === 'invalid') inputEl.classList.add('glow-invalid');
+  if (state === 'idle')    inputEl.classList.add('glow-idle');
+}
 
-    if (left[i] <= right[j]) {
-      arr[k++] = left[i++];
-    } else {
-      arr[k++] = right[j++];
-    }
-    yield { arr: [...arr] };      // yield updated array state
-  }
-  // Copy remaining elements
-  while (i < left.length) { arr[k++] = left[i++]; yield { arr: [...arr] }; }
-  while (j < right.length) { arr[k++] = right[j++]; yield { arr: [...arr] }; }
-}`
+// Wire up live validation on every input in the form
+document.querySelectorAll('.sci-fi-input').forEach(input => {
+  input.addEventListener('input', () => {
+    const result = validateField(input.name, input.value);
+    applyGlowState(input, input.value ? (result.valid ? 'valid' : 'invalid') : 'idle');
+  });
+});`
   }
 ];
 
@@ -227,16 +321,16 @@ const ABOUT = {
   name: "Krishna Verma",
   role: "BTech CSE (AI & ML) · 1st Year",
   bio: `Hello! I'm Krishna — a first-year BTech student specialising in AI & ML at a premier engineering college. I am passionate about building intelligent systems that solve real-world problems using machine learning, computer vision, and data-driven algorithms.`,
-  education: "B.Tech Computer Science & Engineering (AI & ML), 2024 – 2028",
-  interests: "Neural Networks · Reinforcement Learning · Computer Vision · Competitive Programming · Open Source",
+  education: "B.Tech CSE (AI & ML), 2025 – 2029 @NST-ADYPU",
+  interests: "Competitive Programming · Problem Solving · Open Source · AI & ML",
   quote: `"The best way to predict the future is to invent it." — Alan Kay`
 };
 
 const CONTACTS = [
-  { icon: "✉️", label: "Email", value: "krishna.verma@email.com", href: "mailto:krishna.verma@email.com" },
-  { icon: "🐙", label: "GitHub", value: "github.com/krishnaverma", href: "https://github.com" },
-  { icon: "💼", label: "LinkedIn", value: "linkedin.com/in/krishnaverma", href: "https://linkedin.com" },
-  { icon: "🐦", label: "Twitter", value: "@krishna_codes", href: "https://twitter.com" },
+  { icon: "✉️", label: "Email", value: "krishnaias1289@gmail.com", href: "mailto:krishnaias1289@gmail.com" },
+  { icon: "🐙", label: "GitHub", value: "github.com/spy-in-shadows", href: "https://github.com/spy-in-shadows" },
+  { icon: "💼", label: "LinkedIn", value: "linkedin.com/in/krishna-verma-2025-2029-cse", href: "https://www.linkedin.com/in/krishna-verma-2025-2029-cse/" },
+  { icon: "🐦", label: "Twitter/X", value: "@ItsMeKrishnaV", href: "https://x.com/ItsMeKrishnaV" },
 ];
 
 /* ================================================================
@@ -778,7 +872,11 @@ function buildProjectCard(project) {
     <div class="card-tags">
       ${project.tags.map(tag => `<span class="tag">${tag}</span>`).join("")}
     </div>
+    ${project.link
+      ? `<a class="card-github-link neon-btn" href="${project.link}" target="_blank" rel="noopener noreferrer">⬡ View on GitHub</a>`
+      : ""}
   `;
+
 
   card.appendChild(titlebar);
   card.appendChild(screenshotView);
