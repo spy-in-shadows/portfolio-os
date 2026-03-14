@@ -291,9 +291,10 @@ const SKILLS = [
   {
     category: "Programming Languages",
     skills: [
-      { name: "Python", level: 90 },
-      { name: "JavaScript", level: 90 },
-      { name: "C++", level: 70 },
+      { name: "Python", level: 95 },
+      { name: "JavaScript", level: 93 },
+      { name: "HTML5/CSS", level: 89 },
+      { name: "C++", level: 55 },
     ]
   },
   {
@@ -304,19 +305,19 @@ const SKILLS = [
         platform: "Codeforces",
         icon: "⚔️",
         handle: "spy_in_shadows",
-        url: "https://codeforces.com/profile/spy_in_shadows"
-      },
-      {
-        platform: "CodeChef",
-        icon: "👨‍🍳",
-        handle: "spy_in_shadows",
-        url: "https://www.codechef.com/users/spy_in_shadows"
+        url: "https://codeforces.com/profile/spy-in-shadows"
       },
       {
         platform: "LeetCode",
         icon: "🧩",
         handle: "spy_in_shadows",
         url: "https://leetcode.com/u/spy_in_shadows/"
+      },
+      {
+        platform: "CodeChef",
+        icon: "👨‍🍳",
+        handle: "spy_in_shadows",
+        url: "https://www.codechef.com/users/spy_in_shadows"
       },
       {
         platform: "AtCoder",
@@ -500,7 +501,7 @@ function runTerminalTyping() {
 
                 setTimeout(function () {
                   resp2.classList.remove("hidden");
-                  typeWriter(resp2a, "Neural Networks · Machine Learning · Computer Vision", 25, function () {
+                  typeWriter(resp2a, "Problem Solving · Competitive Programming · AI & ML", 25, function () {
                     typeWriter(resp2b, "Algorithms · Open Source · Building Cool Things", 25, null);
                   });
                 }, 300);
@@ -696,10 +697,40 @@ function openWindow(windowId) {
   if (!win) return;
 
   win.classList.remove("hidden");
+
+  /**
+   * FIX: Pin the window to pixel coordinates IMMEDIATELY on first open.
+   *
+   * WHY THIS IS NEEDED:
+   * The CSS centres the window with `left: 50%` + `transform: translateX(-50%)`.
+   * The drag system works with plain `left: Xpx` + no transform.
+   * If we leave the CSS percentage/transform in place and only switch
+   * to pixels on the first mousemove, the browser has to reconcile
+   * two different positioning systems in the same frame — causing the
+   * window to snap/jump to the left the instant you start dragging.
+   *
+   * SOLUTION: Convert to pixel coords right now, before the user touches
+   * the window. `offsetWidth` forces a synchronous reflow so we get the
+   * real rendered width even though the element just became visible.
+   * We use it to compute the same centre position the CSS would have.
+   *
+   * The `dataset.pinned` flag means we only do this ONCE per window
+   * (not every time it's re-opened), so user-moved positions are kept.
+   */
+  if (!win.dataset.pinned) {
+    win.dataset.pinned = "1";
+
+    // Reading offsetWidth forces layout — gives correct size instantly
+    const winW = win.offsetWidth;
+    const centreLeft = Math.max(8, Math.floor((window.innerWidth - winW) / 2));
+
+    win.style.left = centreLeft + "px";
+    win.style.top = "80px";          // matches the CSS top: 80px
+    win.style.transform = "none";          // no transform needed anymore
+  }
+
   bringToFront(win);
   addTaskbarEntry(windowId);
-
-  // Populate content if not already done
   populateWindow(windowId);
 }
 
@@ -748,10 +779,10 @@ function makeDraggable(win, titlebar) {
 document.addEventListener("mousemove", function (e) {
   if (!dragging.el) return;
 
-  // Windows use fixed positioning, so set left/top directly
+  // Window is already in pixel-coordinate space (set in openWindow),
+  // so we can set left/top directly without any transform gymnastics.
   dragging.el.style.left = (e.clientX - dragging.offsetX) + "px";
   dragging.el.style.top = (e.clientY - dragging.offsetY) + "px";
-  dragging.el.style.transform = "none";   // disable the CSS centering transform
 });
 
 // Global mouseup: stop dragging

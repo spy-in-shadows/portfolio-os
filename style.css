@@ -1139,12 +1139,14 @@ body {
 @keyframes window-appear {
     from {
         opacity: 0;
-        transform: translateX(-50%) translateY(-16px) scale(0.96);
+        /* No translateX here — JS pins left to a pixel value on open.
+           Only animate the subtle drop-in and scale. */
+        transform: translateY(-16px) scale(0.96);
     }
 
     to {
         opacity: 1;
-        transform: translateX(-50%) translateY(0) scale(1);
+        transform: none;
     }
 }
 
