@@ -1244,9 +1244,9 @@ function initCommandPalette() {
   const overlay = document.getElementById("command-palette-overlay");
   const input = document.getElementById("cp-input");
 
-  // Ctrl + K → open palette
+  // Ctrl+K (Win/Linux) or Cmd+K (Mac) → open palette
   document.addEventListener("keydown", function (e) {
-    if (e.ctrlKey && e.key === "k") {
+    if ((e.ctrlKey || e.metaKey) && e.key === "k") {
       e.preventDefault();    // stop browser default (focus address bar)
       openPalette();
     }
