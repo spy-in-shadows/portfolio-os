@@ -165,5 +165,5 @@ MIT © [Krishna Verma](https://github.com/spy-in-shadows)
 ---
 
 <div align="center">
-  <sub>Built with 🖤 and way too much CSS by <strong>spy-in-shadows</strong></sub>
+  <sub>Built with ❤️ and way too much CSS by <strong>spy-in-shadows</strong></sub>
 </div>
