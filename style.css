@@ -607,6 +607,13 @@ body {
     overflow: hidden;
 }
 
+/* Clickable screenshot wrapper */
+.card-screenshot-link {
+    display: block;
+    cursor: pointer;
+    text-decoration: none;
+}
+
 .card-screenshot-img {
     width: 100%;
     aspect-ratio: 16 / 9;

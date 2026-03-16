@@ -907,6 +907,15 @@ function buildProjectCard(project) {
   `;
 
   // --- Screenshot view (real image with emoji fallback) ---
+  // Wrapped in an <a> so clicking the preview opens the project link
+  const screenshotLink = project.link ? Object.assign(document.createElement("a"), {
+    href: project.link,
+    target: "_blank",
+    rel: "noopener noreferrer",
+    title: "Open " + project.title,
+  }) : document.createElement("div");
+  screenshotLink.classList.add("card-screenshot-link");
+
   const screenshotView = document.createElement("div");
   screenshotView.classList.add("card-screenshot-view");
   if (project.screenshot) {
@@ -922,6 +931,7 @@ function buildProjectCard(project) {
   } else {
     screenshotView.innerHTML = `<div class="card-screenshot-placeholder">${project.emoji}</div>`;
   }
+  screenshotLink.appendChild(screenshotView);
 
   // --- Code view ---
   const codeView = document.createElement("div");
@@ -944,7 +954,7 @@ function buildProjectCard(project) {
 
 
   card.appendChild(titlebar);
-  card.appendChild(screenshotView);
+  card.appendChild(screenshotLink);
   card.appendChild(codeView);
   card.appendChild(info);
 
@@ -956,11 +966,11 @@ function buildProjectCard(project) {
     showingCode = !showingCode;
 
     if (showingCode) {
-      screenshotView.classList.add("hidden-view");
+      screenshotLink.classList.add("hidden-view");
       codeView.classList.add("active");
       toggleBtn.textContent = "⬡ Preview";
     } else {
-      screenshotView.classList.remove("hidden-view");
+      screenshotLink.classList.remove("hidden-view");
       codeView.classList.remove("active");
       toggleBtn.textContent = "⬡ Toggle";
     }

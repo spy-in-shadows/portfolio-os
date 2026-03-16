@@ -91,12 +91,12 @@ portfolio-os/
 
 | Project | Stack | Link |
 |---------|-------|------|
-| Stock Portfolio Risk Analyzer | JavaScript · Finance · Charts | [GitHub](https://github.com/spy-in-shadows/Stock-Portfolio-Risk-Analyzer) |
-| AI Galactic Intelligence Engine | Python · Three.js · ML · NLP | [GitHub](https://github.com/spy-in-shadows/ai-galactic-intelligence-engine) |
-| Cosmic Chronicles | HTML · CSS · JS · Animation | [Live](https://spy-in-shadows.github.io/Comsic_Chronicles/) |
-| balanceShEEt | JavaScript · Charts · Finance | [GitHub](https://github.com/spy-in-shadows/balanceShEEt) |
-| Art Gallery Virtual Tour | JavaScript · 3D · WebGL | [GitHub](https://github.com/spy-in-shadows/Art-Gallery-Virtual-Tour) |
-| sci_fi_form | HTML · CSS · JS · UI/UX | [GitHub](https://github.com/spy-in-shadows/sci_fi_form) |
+| [Stock Portfolio Risk Analyzer](https://github.com/spy-in-shadows/Stock-Portfolio-Risk-Analyzer) | JavaScript · Finance · Charts | [GitHub](https://github.com/spy-in-shadows/Stock-Portfolio-Risk-Analyzer) |
+| [AI Galactic Intelligence Engine](https://github.com/spy-in-shadows/ai-galactic-intelligence-engine) | Python · Three.js · ML · NLP | [GitHub](https://github.com/spy-in-shadows/ai-galactic-intelligence-engine) |
+| [Cosmic Chronicles](https://spy-in-shadows.github.io/Comsic_Chronicles/) | HTML · CSS · JS · Animation | [Live](https://spy-in-shadows.github.io/Comsic_Chronicles/) |
+| [balanceShEEt](https://github.com/spy-in-shadows/balanceShEEt) | JavaScript · Charts · Finance | [GitHub](https://github.com/spy-in-shadows/balanceShEEt) |
+| [Art Gallery Virtual Tour](https://github.com/spy-in-shadows/Art-Gallery-Virtual-Tour) | JavaScript · 3D · WebGL | [GitHub](https://github.com/spy-in-shadows/Art-Gallery-Virtual-Tour) |
+| [sci\_fi\_form](https://github.com/spy-in-shadows/sci_fi_form) | HTML · CSS · JS · UI/UX | [GitHub](https://github.com/spy-in-shadows/sci_fi_form) |
 
 ---
 
