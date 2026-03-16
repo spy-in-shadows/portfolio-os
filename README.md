@@ -3,7 +3,7 @@
 > **An interactive, OS-themed developer portfolio with a cyberpunk terminal aesthetic.**  
 > Built entirely with vanilla HTML5, CSS3, and ES6+ JavaScript — zero dependencies.
 
-![Portfolio OS](assets/screenshots/cosmic-chronicles.png)
+![Portfolio OS](assets/screenshots/portfolio-os.png)
 
 ---
 
