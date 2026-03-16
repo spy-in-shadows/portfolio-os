@@ -33,6 +33,7 @@ const PROJECTS = [
     desc: "A full-featured stock portfolio risk analysis dashboard. Fetches live market data, calculates risk metrics (VaR, Sharpe, Beta), and visualises portfolio performance with interactive charts.",
     tags: ["JavaScript", "Finance", "Charts", "Risk"],
     emoji: "📊",
+    screenshot: "assets/screenshots/ai-portfolio-risk-analyzer.jpeg",
     file: "risk_analyzer.js",
     link: "https://github.com/spy-in-shadows/Stock-Portfolio-Risk-Analyzer",
     code: `// Stock Portfolio Risk Analyzer
@@ -70,6 +71,7 @@ function sharpeRatio(returns, riskFreeRate = 0.06 / 252) {
     desc: "AI-powered 3D Galactic Intelligence System built with Three.js, ML, NLP and Graph Intelligence. Visualises cosmic data relationships in an immersive 3D environment.",
     tags: ["Python", "Three.js", "ML", "NLP", "3D"],
     emoji: "🌌",
+    screenshot: "assets/screenshots/ai-galactic-engine.png",
     file: "galactic_engine.py",
     link: "https://github.com/spy-in-shadows/ai-galactic-intelligence-engine",
     code: `# AI Galactic Intelligence Engine
@@ -114,6 +116,7 @@ class GalacticGraph:
     desc: "An immersive space-themed interactive web experience with rich animations, cosmic storytelling, and a stunning visual journey through the universe.",
     tags: ["HTML", "CSS", "JavaScript", "Animation"],
     emoji: "🚀",
+    screenshot: "assets/screenshots/cosmic-chronicles.png",
     file: "cosmic_chronicles.js",
     link: "https://spy-in-shadows.github.io/Comsic_Chronicles/",
     code: `// Cosmic Chronicles — Parallax starfield engine
@@ -163,6 +166,7 @@ function initStarfield(canvas) {
     desc: "A business analyst app that creates interactive charts and forecasts financial data. Helps users visualise balance sheets, P&L statements, and predict future trends.",
     tags: ["JavaScript", "Charts", "Finance", "Data"],
     emoji: "💹",
+    screenshot: "assets/screenshots/balancesheet.png",
     file: "balance_sheet.js",
     link: "https://github.com/spy-in-shadows/balanceShEEt",
     code: `// balanceShEEt — Linear regression forecasting engine
@@ -204,7 +208,8 @@ function linearRegression(xVals, yVals) {
     title: "Art Gallery Virtual Tour",
     desc: "An immersive 3D virtual art gallery experience. Walk through curated exhibition rooms, interact with artworks, and enjoy a museum-quality tour from any browser.",
     tags: ["JavaScript", "3D", "WebGL", "Interactive"],
-    emoji: "�️",
+    emoji: "🖼️",
+    screenshot: "assets/screenshots/galerie_d'art.png",
     file: "gallery_tour.js",
     link: "https://github.com/spy-in-shadows/Art-Gallery-Virtual-Tour",
     code: `// Art Gallery Virtual Tour — Room collision detection
@@ -248,6 +253,7 @@ class GalleryRoom {
     desc: "A sleek, futuristic HTML form that is as modern and sci-fi as your imagination. Features glowing inputs, animated validation, and a cyberpunk aesthetic.",
     tags: ["HTML", "CSS", "JavaScript", "UI/UX"],
     emoji: "🛸",
+    screenshot: "assets/screenshots/sci-fi-form.png",
     file: "sci_fi_form.js",
     link: "https://github.com/spy-in-shadows/sci_fi_form",
     code: `// sci_fi_form — Real-time animated field validation
@@ -339,7 +345,7 @@ const SKILLS = [
 const ABOUT = {
   name: "Krishna Verma",
   role: "BTech CSE (AI & ML) · 1st Year",
-  bio: `Hello! I'm Krishna — a first-year BTech student specialising in AI & ML at a premier engineering college. I am passionate about building intelligent systems that solve real-world problems using machine learning, computer vision, and data-driven algorithms.`,
+  bio: `Hello! I'm Krishna - a first-year B.Tech Computer Science (AI & ML) student at Newton School of Technology, ADYPU. Passionate about problem solving, competitive programming, and building impactful technology. Currently strengthening my foundations in data structures, algorithms, and AI while developing projects using Python and web technologies. Always eager to learn, grow, and take on challenging problems.`,
   education: "B.Tech CSE (AI & ML), 2025 – 2029 @NST-ADYPU",
   interests: "Competitive Programming · Problem Solving · Open Source · AI & ML",
   quote: `"The best way to predict the future is to invent it." — Alan Kay`
@@ -900,12 +906,22 @@ function buildProjectCard(project) {
     <button class="card-toggle-btn neon-btn" aria-label="Toggle code view">⬡ Toggle</button>
   `;
 
-  // --- Screenshot (placeholder with emoji) ---
+  // --- Screenshot view (real image with emoji fallback) ---
   const screenshotView = document.createElement("div");
   screenshotView.classList.add("card-screenshot-view");
-  screenshotView.innerHTML = `
-    <div class="card-screenshot-placeholder">${project.emoji}</div>
-  `;
+  if (project.screenshot) {
+    const img = document.createElement("img");
+    img.src = project.screenshot;
+    img.alt = project.title + " screenshot";
+    img.classList.add("card-screenshot-img");
+    img.onerror = function () {
+      // Fallback to emoji placeholder if image fails to load
+      screenshotView.innerHTML = `<div class="card-screenshot-placeholder">${project.emoji}</div>`;
+    };
+    screenshotView.appendChild(img);
+  } else {
+    screenshotView.innerHTML = `<div class="card-screenshot-placeholder">${project.emoji}</div>`;
+  }
 
   // --- Code view ---
   const codeView = document.createElement("div");
@@ -1169,7 +1185,7 @@ const COMMANDS = [
   { icon: "⚡", label: "Skills", shortcut: "S", action: function () { openWindow("skills"); } },
   { icon: "👋", label: "About", shortcut: "A", action: function () { openWindow("about"); } },
   { icon: "✉️", label: "Contact", shortcut: "C", action: function () { openWindow("contact"); } },
-  { icon: "⬇", label: "Resume", shortcut: "R", action: function () { alert("📄 Resume download would open here!"); } },
+  { icon: "⬇", label: "Resume", shortcut: "R", action: function () { window.open("assets/resume.pdf", "_blank", "noopener,noreferrer"); } },
   {
     icon: "🔄", label: "Close All", shortcut: "X", action: function () {
       ["projects", "skills", "about", "contact"].forEach(closeWindow);
@@ -1390,7 +1406,7 @@ function initApp() {
 
   // Resume button
   document.getElementById("resume-btn").addEventListener("click", function () {
-    alert("📄 Resume download would open here!\nAdd your PDF link to the CONTACTS array.");
+    window.open("assets/resume.pdf", "_blank", "noopener,noreferrer");
   });
 }
 

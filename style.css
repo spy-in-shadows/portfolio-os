@@ -227,6 +227,46 @@ body {
     animation: glitch-main 4s infinite;
 }
 
+/* Codename tag beneath the glitch title */
+#codename {
+    font-family: var(--font-mono);
+    font-size: clamp(13px, 1.6vw, 18px);
+    letter-spacing: 3px;
+    margin-top: -8px;
+    color: var(--text-dim);
+}
+
+#codename-text {
+    color: var(--accent-blue);
+    text-shadow: 0 0 8px var(--accent-blue), 0 0 20px rgba(100, 200, 255, 0.3);
+    animation: codename-flicker 5s ease-in-out infinite;
+}
+
+@keyframes codename-flicker {
+
+    0%,
+    90%,
+    100% {
+        opacity: 1;
+    }
+
+    92% {
+        opacity: 0.4;
+    }
+
+    94% {
+        opacity: 1;
+    }
+
+    96% {
+        opacity: 0.6;
+    }
+
+    98% {
+        opacity: 1;
+    }
+}
+
 /* Both pseudo-elements share the same text via data-text attribute */
 #glitch-name::before,
 #glitch-name::after {
@@ -559,6 +599,37 @@ body {
     aspect-ratio: 16 / 9;
     object-fit: cover;
     display: block;
+}
+
+/* Real screenshot image rendered by JS */
+.card-screenshot-view {
+    position: relative;
+    overflow: hidden;
+}
+
+.card-screenshot-img {
+    width: 100%;
+    aspect-ratio: 16 / 9;
+    object-fit: cover;
+    display: block;
+    transition: transform 0.4s ease, filter 0.4s ease;
+    filter: brightness(0.92) saturate(1.05);
+}
+
+.project-card:hover .card-screenshot-img {
+    transform: scale(1.03);
+    filter: brightness(1) saturate(1.1);
+}
+
+/* Subtle neon gradient overlay on top of the screenshot */
+.card-screenshot-view::after {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(to bottom,
+            transparent 55%,
+            rgba(0, 255, 159, 0.06) 100%);
+    pointer-events: none;
 }
 
 .card-screenshot-placeholder {
