@@ -689,8 +689,9 @@ body {
     display: block;
 }
 
-.card-screenshot-view.hidden-view {
-    display: none;
+.card-screenshot-view.hidden-view,
+.card-screenshot-link.hidden-view {
+    display: none !important;
 }
 
 /* Code block inside card */
