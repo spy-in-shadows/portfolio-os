@@ -5,19 +5,6 @@
  * This file shows a JavaScript implementation of the Merge Sort
  * algorithm with a Generator function for step-by-step visualisation.
  *
- * INTERVIEW EXPLAINABILITY NOTES:
- *
- * Q: What is a generator function?
- * A: A function* that can pause its execution using `yield`.
- *    Each call to .next() runs the function until the next `yield`.
- *    This lets us animate the sort ONE STEP AT A TIME.
- *
- * Q: What is the time complexity of Merge Sort?
- * A: O(n log n) in all cases. We split the array log(n) times,
- *    and each level of merging does O(n) work.
- *
- * Q: What is the space complexity?
- * A: O(n) extra space for the temporary left/right sub-arrays.
  * ─────────────────────────────────────────────────────────────────
  */
 
@@ -66,9 +53,7 @@ function* merge(arr, l, mid, r) {
     let j = 0;      // pointer into `right`
     let k = l;      // pointer into original arr
 
-    // Compare front elements of left and right, write the smaller one
     while (i < left.length && j < right.length) {
-        // Yield the two indices being compared → visualiser highlights them
         yield { comparing: [l + i, mid + 1 + j] };
 
         if (left[i] <= right[j]) {
@@ -94,11 +79,6 @@ function* merge(arr, l, mid, r) {
     }
 }
 
-// ─────────────────────────────────────────────────────────────────
-// USAGE EXAMPLE
-// This is how a visualiser would consume the generator
-// ─────────────────────────────────────────────────────────────────
-
 const data = [38, 27, 43, 3, 9, 82, 10];
 const gen = mergeSort(data);
 
@@ -117,6 +97,3 @@ function step() {
         console.log("📊 Array state:", value.arr);
     }
 }
-
-// In a real visualiser you'd call step() on each animation frame:
-// requestAnimationFrame(step)
