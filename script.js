@@ -694,6 +694,18 @@ let dragging = {
   offsetY: 0,
 };
 
+/** Tracks which window is currently being resized */
+let resizing = {
+  el: null,
+  dir: '',
+  startX: 0,
+  startY: 0,
+  startW: 0,
+  startH: 0,
+  startL: 0,
+  startT: 0,
+};
+
 /**
  * Opens or focuses a named window.
  * @param {string} windowId - e.g. "projects", "skills"
@@ -781,19 +793,81 @@ function makeDraggable(win, titlebar) {
   });
 }
 
-// Global mousemove: update dragging window position
-document.addEventListener("mousemove", function (e) {
-  if (!dragging.el) return;
+/**
+ * Sets up resizable borders on an OS window.
+ * @param {HTMLElement} win - The .os-window element
+ */
+function makeResizable(win) {
+  const directions = ['n', 's', 'e', 'w', 'ne', 'nw', 'se', 'sw'];
+  directions.forEach(function(dir) {
+    const resizer = document.createElement('div');
+    resizer.className = `resizer resizer-` + dir;
+    win.appendChild(resizer);
 
-  // Window is already in pixel-coordinate space (set in openWindow),
-  // so we can set left/top directly without any transform gymnastics.
-  dragging.el.style.left = (e.clientX - dragging.offsetX) + "px";
-  dragging.el.style.top = (e.clientY - dragging.offsetY) + "px";
+    resizer.addEventListener('mousedown', function (e) {
+      e.preventDefault();
+      e.stopPropagation(); // prevent window from dragging or focusing prematurely
+      bringToFront(win);
+
+      resizing.el = win;
+      resizing.dir = dir;
+      resizing.startX = e.clientX;
+      resizing.startY = e.clientY;
+      resizing.startW = win.offsetWidth;
+      resizing.startH = win.offsetHeight;
+      resizing.startL = win.offsetLeft;
+      resizing.startT = win.offsetTop;
+      
+      // Force absolute pixel dimensions to avoid jumps
+      win.style.width = resizing.startW + 'px';
+      win.style.height = resizing.startH + 'px';
+    });
+  });
+}
+
+// Global mousemove: update dragging or resizing window position
+document.addEventListener("mousemove", function (e) {
+  if (dragging.el) {
+    // Window is already in pixel-coordinate space
+    dragging.el.style.left = (e.clientX - dragging.offsetX) + "px";
+    dragging.el.style.top = (e.clientY - dragging.offsetY) + "px";
+  } else if (resizing.el) {
+    const dx = e.clientX - resizing.startX;
+    const dy = e.clientY - resizing.startY;
+    const dir = resizing.dir;
+    const win = resizing.el;
+    
+    // Minimum dimensions matching our CSS
+    const minW = 320;
+    const minH = 200;
+
+    let newW = resizing.startW;
+    let newH = resizing.startH;
+    let newL = resizing.startL;
+    let newT = resizing.startT;
+
+    if (dir.includes('e')) newW = Math.max(minW, resizing.startW + dx);
+    if (dir.includes('s')) newH = Math.max(minH, resizing.startH + dy);
+    if (dir.includes('w')) {
+      newW = Math.max(minW, resizing.startW - dx);
+      newL = resizing.startL + (resizing.startW - newW);
+    }
+    if (dir.includes('n')) {
+      newH = Math.max(minH, resizing.startH - dy);
+      newT = resizing.startT + (resizing.startH - newH);
+    }
+
+    win.style.width = newW + 'px';
+    win.style.height = newH + 'px';
+    win.style.left = newL + 'px';
+    win.style.top = newT + 'px';
+  }
 });
 
-// Global mouseup: stop dragging
+// Global mouseup: stop dragging and resizing
 document.addEventListener("mouseup", function () {
   dragging.el = null;
+  resizing.el = null;
 });
 
 /**
@@ -817,11 +891,14 @@ function initWindowSystem() {
     });
   });
 
-  // Make each window draggable via its title bar
+  // Make each window draggable via its title bar and resizable via edge handles
   ["projects", "skills", "about", "contact"].forEach(function (id) {
     const win = document.getElementById("window-" + id);
     const titlebar = document.getElementById("titlebar-" + id);
-    if (win && titlebar) makeDraggable(win, titlebar);
+    if (win && titlebar) {
+      makeDraggable(win, titlebar);
+      makeResizable(win);
+    }
 
     // Click anywhere on window to bring it to front
     if (win) {
