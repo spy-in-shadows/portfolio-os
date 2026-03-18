@@ -679,6 +679,16 @@ body {
     display: block;
 }
 
+/* Card about view */
+.card-about-view {
+    display: none;
+    padding: 16px 14px;
+}
+
+.card-about-view.active {
+    display: block;
+}
+
 .card-screenshot-view.hidden-view {
     display: none;
 }

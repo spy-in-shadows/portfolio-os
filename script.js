@@ -976,11 +976,9 @@ function buildProjectCard(project) {
   const titlebar = document.createElement("div");
   titlebar.classList.add("card-titlebar");
   titlebar.innerHTML = `
-    <span class="card-dot dot-r"></span>
-    <span class="card-dot dot-y"></span>
-    <span class="card-dot dot-g"></span>
+    <button class="card-toggle-btn btn-about neon-btn" aria-label="About project" style="margin-right: 8px;">About</button>
     <span class="card-filename">${project.file}</span>
-    <button class="card-toggle-btn neon-btn" aria-label="Toggle code view">⬡ Toggle</button>
+    <button class="card-toggle-btn btn-code neon-btn" aria-label="Toggle code view">⬡ Code</button>
   `;
 
   // --- Screenshot view (real image with emoji fallback) ---
@@ -1015,12 +1013,19 @@ function buildProjectCard(project) {
   codeView.classList.add("card-code-view");
   codeView.innerHTML = `<pre><code>${highlightCode(project.code)}</code></pre>`;
 
+  // --- About view ---
+  const aboutView = document.createElement("div");
+  aboutView.classList.add("card-about-view");
+  aboutView.innerHTML = `
+    <div style="font-size: 13px; line-height: 1.6; color: var(--secondary); margin-bottom: 8px;"><strong>Description:</strong></div>
+    <div style="font-size: 13px; line-height: 1.6; color: var(--text-dim);">${project.desc}</div>
+  `;
+
   // --- Info footer ---
   const info = document.createElement("div");
   info.classList.add("card-info");
   info.innerHTML = `
     <div class="card-title">${project.title}</div>
-    <div class="card-desc">${project.desc}</div>
     <div class="card-tags">
       ${project.tags.map(tag => `<span class="tag">${tag}</span>`).join("")}
     </div>
@@ -1029,29 +1034,50 @@ function buildProjectCard(project) {
       : ""}
   `;
 
-
   card.appendChild(titlebar);
   card.appendChild(screenshotLink);
   card.appendChild(codeView);
+  card.appendChild(aboutView);
   card.appendChild(info);
 
-  // --- TOGGLE logic: clicking the button switches between views ---
-  const toggleBtn = titlebar.querySelector(".card-toggle-btn");
-  let showingCode = false;
+  // --- TOGGLE logic: clicking the buttons switches between views ---
+  const btnAbout = titlebar.querySelector(".btn-about");
+  const btnCode = titlebar.querySelector(".btn-code");
+  let currentView = 'screenshot'; // 'screenshot', 'code', 'about'
 
-  toggleBtn.addEventListener("click", function () {
-    showingCode = !showingCode;
+  function updateView() {
+    screenshotLink.classList.remove("hidden-view");
+    codeView.classList.remove("active");
+    aboutView.classList.remove("active");
+    btnCode.textContent = "⬡ Code";
+    btnAbout.textContent = "About";
 
-    if (showingCode) {
+    if (currentView === 'screenshot') {
+      // everything is handled by resets above
+    } else if (currentView === 'code') {
       screenshotLink.classList.add("hidden-view");
       codeView.classList.add("active");
-      toggleBtn.textContent = "⬡ Preview";
-    } else {
-      screenshotLink.classList.remove("hidden-view");
-      codeView.classList.remove("active");
-      toggleBtn.textContent = "⬡ Toggle";
+      btnCode.textContent = "⬡ Preview";
+    } else if (currentView === 'about') {
+      screenshotLink.classList.add("hidden-view");
+      aboutView.classList.add("active");
+      btnAbout.textContent = "Close";
     }
-  });
+  }
+
+  if (btnAbout && btnCode) {
+    btnAbout.addEventListener("click", function () {
+      currentView = (currentView === 'about') ? 'screenshot' : 'about';
+      updateView();
+    });
+
+    btnCode.addEventListener("click", function () {
+      currentView = (currentView === 'code') ? 'screenshot' : 'code';
+      updateView();
+    });
+    
+    updateView(); // Set initial default state
+  }
 
   return card;
 }
