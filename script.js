@@ -1084,7 +1084,9 @@ function populateAbout() {
   const body = document.getElementById("about-body");
   body.innerHTML = `
     <div class="about-header">
-      <div class="about-avatar">👨‍💻</div>
+      <div class="about-avatar">
+        <img src="assets/icons/display-photo.jpeg" alt="Display Photo" style="width:100%; height:100%; border-radius:50%; object-fit:cover;" />
+      </div>
       <div>
         <div class="about-name">${ABOUT.name}</div>
         <div class="about-role">${ABOUT.role}</div>
