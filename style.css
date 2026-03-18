@@ -673,6 +673,9 @@ body {
 .card-code-view {
     display: none;
     padding: 14px;
+    width: 100%;
+    aspect-ratio: 16 / 9;
+    overflow-y: auto;
 }
 
 .card-code-view.active {
@@ -683,6 +686,9 @@ body {
 .card-about-view {
     display: none;
     padding: 16px 14px;
+    width: 100%;
+    aspect-ratio: 16 / 9;
+    overflow-y: auto;
 }
 
 .card-about-view.active {
